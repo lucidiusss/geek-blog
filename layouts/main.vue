@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full bg-white dark:bg-[#0F1419] custom-transition">
+  <div class="min-h-full custom-transition">
     <div class="grid grid-cols-12 sm:px-6 lg:px-8 mx-auto lg:max-w-7xl">
       <div class="hidden md:block xs-col-span-1 xl:col-span-3">
         <div class="fixed top-0">

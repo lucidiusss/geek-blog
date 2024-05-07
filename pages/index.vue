@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col border-l border-r border-l-[#ebeef0] dark:border-l-[#3a444c] border-r-[#ebeef0] dark:border-r-[#3a444c] h-screen"
+    class="flex flex-col border-l border-r border-l-[#ebeef0] dark:border-l-[#3a444c] border-r-[#ebeef0] dark:border-r-[#3a444c] custom-transition"
   >
     <div
       class="flex border-b w-full border-b-[#d4d4d4] dark:border-b-[#8899A6]"

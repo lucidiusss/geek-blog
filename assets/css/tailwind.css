@@ -4,12 +4,7 @@
 
 body {
   font-family: Roboto, sans-serif;
-  width: 100%;
-}
-
-html {
-  width: 100%;
-  scrollbar-gutter: stable both-edges;
+  @apply bg-white dark:bg-[#0F1419];
 }
 
 @layer components {
