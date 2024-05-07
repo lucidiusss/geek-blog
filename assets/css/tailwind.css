@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Roboto, sans-serif;
+  width: 100%;
+}
+
+html {
+  width: 100%;
+  scrollbar-gutter: stable both-edges;
+}
+
+@layer components {
+  .custom-transition {
+    @apply transition ease-linear duration-100;
+  }
+}
