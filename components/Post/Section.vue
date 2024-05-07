@@ -1,6 +1,6 @@
 <template>
   <div v-if="user" class="w-full">
-    <div class="p-4">
+    <div class="p-4 flex flex-col gap-4">
       <div class="flex flex-row gap-4 items-center">
         <div class="w-[49px] h-[49px]">
           <NuxtImg class="rounded-full" :src="user.user_metadata.avatar_url" />
@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="flex flex-row justify-between items-center">
-        <div >
+        <div>
           <input type="file" @input="onChange()" hidden accept=".png, .jpg, .jpeg">
             <Icon
               name="material-symbols:image-outline-rounded"
@@ -108,6 +108,7 @@ const createPost = async () => {
             }
         })
 
+       
         clearData()
     } catch (error) {
         console.log(error)

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border-l border-r border-l-[#d4d4d4] dark:border-l-[#8899A6] border-r-[#EBEEF0 ] dark:border-r-[#8899A6] h-screen"
+    class="border-l border-r border-l-[#ebeef0] dark:border-l-[#3a444c] border-r-[#ebeef0] dark:border-r-[#3a444c] h-screen"
   >
     more
   </div>
