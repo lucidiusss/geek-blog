@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: [
     "@pinia/nuxt",
+    "@nuxt/ui",
     "@nuxtjs/supabase",
     "@nuxtjs/tailwindcss",
     "@nuxt/image",
@@ -10,13 +11,20 @@ export default defineNuxtConfig({
     "nuxt-icon",
     "@nuxtjs/google-fonts",
     "@vueuse/nuxt",
-    "@vueuse/motion/nuxt",
     "nuxt-time",
+    "@morev/vue-transitions/nuxt",
+    "@vueuse/motion/nuxt",
+    "nuxt-tiptap-editor",
+    "@nuxtjs/i18n"
   ],
+  tiptap: {
+    prefix: "Tiptap",
+  },
+
   css: ["~/assets/css/tailwind.css"],
   googleFonts: {
     families: {
-      Roboto: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+      Roboto: true,
     },
   },
   supabase: {

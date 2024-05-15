@@ -1,7 +1,5 @@
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <div>popular</div>
 </template>
 
 <script setup></script>

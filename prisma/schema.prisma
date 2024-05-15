@@ -16,10 +16,9 @@ datasource db {
 model Posts {
   id         Int       @id @default(autoincrement())
   userId     String    @db.Uuid
-  name       String
   username   String
   image      String
-  text       String
+  content    String
   picture    String
   createdAt  DateTime  @default(now())
   likes      Likes[]
@@ -38,7 +37,17 @@ model Likes {
 model Comments {
   id Int @id @default(autoincrement())
   userId     String    @db.Uuid
+  text String
   postId     Int
   createdAt  DateTime  @default(now())
   post       Posts     @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Categories {
+  id Int @id @default(autoincrement())
+  avatar String
+  short_name String
+  name String
+  description String
+  createdAt DateTime @default(now())
 }

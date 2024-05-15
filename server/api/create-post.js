@@ -9,9 +9,8 @@ export default defineEventHandler(async (event) => {
     data: {
       userId: body.userId,
       username: body.username,
-      name: body.name,
       image: body.image,
-      text: body.text,
+      content: body.content,
       picture: body.picture,
     },
   });

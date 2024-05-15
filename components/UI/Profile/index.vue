@@ -1,58 +1,52 @@
 <template>
-  <div v-if="user" class="flex flex-row items-center mb-5">
+  <div class="flex flex-row gap-3 items-center justify-between">
     <div>
-      <img
-        :src="user.identities[0].identity_data.avatar_url"
-        class="w-[40px] h-[40px] rounded-full"
-      />
-    </div>
-    <div class="flex flex-col ml-3">
-      <p class="font-bold text-[16px] text-black dark:text-white">
-        {{ user.identities[0].identity_data.full_name }}
-      </p>
-      <span
-        class="font-medium text-[16px] tracking-tight text-[#5B7083] dark:text-[#8899A6]"
-        >@{{ user.identities[0].identity_data.user_name }}</span
-      >
-    </div>
-    <div class="ml-auto mr-5">
-      <button @click="modalFn()" class="text-black dark:text-white">
-        <Icon size="30" name="mdi:dots-horizontal" />
+      <button>
+        <Icon
+          name="mdi:bell-outline"
+          class="text-black hover:text-[#3c4347] dark:text-white dark:hover:text-[#c3c3c4] custom-transition"
+          size="30"
+        />
       </button>
+    </div>
+    <div class="flex items-center gap-2">
+      <button
+        @click="postModal.isOpen = true"
+        class="dark:text-[#c9cccf] font-medium leading-4 text-black px-3 py-2 border dark:border-transparent border-[#f0f0f0] bg-white hover:shadow custom-transition rounded-full dark:bg-[#2c2c2c] text-[17px] dark:hover:border-[#474747]"
+      >
+        <Icon
+          size="25"
+          class="text-black dark:text-[#c9cccf]"
+          name="material-symbols:edit-outline-rounded"
+        />
+        Написать
+      </button>
+    </div>
+    <div>
+      <button
+        v-if="!user"
+        @click="authModal.isOpen = true"
+        class="py-2 px-3 custom-transition rounded-full font-medium dark:text-[#c9cccf] text-white text-[17px] bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] dark:bg-[#418af4] dark:hover:bg-[#598fde]"
+      >
+        Войти
+      </button>
+      <div v-else>
+        <UIProfileUser ref="ignoreEl" />
+      </div>
     </div>
   </div>
 
-  <UIProfileModal v-if="isModalOpen" @close="isModalOpen = false" />
+  <Teleport to="body">
+    <UIAuthBackground v-show="authModal.isOpen || postModal.isOpen" />
+    <TransitionFade>
+      <UIAuthModal v-if="authModal.isOpen" />
+      <UIPostModal v-if="postModal.isOpen && user" />
+    </TransitionFade>
+  </Teleport>
 </template>
 
 <script setup>
-const router = useRouter();
+const authModal = useAuthModal();
+const postModal = usePostModal();
 const user = useSupabaseUser();
-const client = useSupabaseClient();
-const isModalOpen = useState("isModalOpen", () => false);
-
-const logOut = async () => {
-  try {
-    await client.auth.signOut();
-  } catch (err) {
-    console.log(err);
-  } finally {
-    navigateTo("/auth");
-  }
-};
-
-const modalFn = () => {
-  isModalOpen.value = !isModalOpen.value;
-};
-
-watch(isModalOpen, () => {
-  console.log(isModalOpen.value);
-});
-
-onMounted(() => {
-  const user = useSupabaseUser();
-  if (!user.value) {
-    router.replace("/auth");
-  }
-});
 </script>
