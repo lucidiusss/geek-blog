@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare && npx prisma generate"
   },
   "dependencies": {
+    "@hebilicious/vue-query-nuxt": "^0.3.0",
     "@morev/vue-transitions": "^3.0.2",
     "@nuxt/image": "^1.7.0",
     "@nuxt/ui": "^2.16.0",
@@ -17,6 +18,7 @@
     "@nuxtjs/supabase": "^1.2.2",
     "@pinia/nuxt": "^0.5.1",
     "@prisma/client": "^5.13.0",
+    "@tanstack/vue-query": "^5.36.1",
     "@tiptap/extension-bubble-menu": "^2.3.2",
     "@tiptap/extension-code": "^2.3.2",
     "@tiptap/extension-code-block": "^2.3.2",

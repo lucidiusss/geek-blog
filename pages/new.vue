@@ -8,7 +8,7 @@
       v-for="post in posts"
       class="dark:text-[#c9cccf] text-black font-medium text-[17px]"
     >
-      <UIPost :post="post" :key="post.id" />
+      <LazyUIPost :post="post" :key="post" />
     </div>
     <div
       v-if="!isPosts"
@@ -83,10 +83,8 @@ watchEffect(() => {
 watch(posts, () => {
   if (posts.value.length > 0) {
     isPosts.value = true;
-    console.log(isPosts.value);
   } else {
     isPosts.value = false;
-    console.log(isPosts.value);
   }
 });
 

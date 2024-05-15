@@ -6,7 +6,7 @@
       class="flex gap-2 items-center transition hover:opacity-70"
     >
       <NuxtImg
-        class="w-9 h-9 rounded-full"
+        class="w-9 h-9 rounded-full custom-transition"
         :src="
           user?.user_metadata.avatar_url
             ? user?.user_metadata.avatar_url

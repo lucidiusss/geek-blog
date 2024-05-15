@@ -68,7 +68,9 @@ const deletePost = async () => {
   } finally {
     isLoading.value = false;
     isDeleting.value = false;
-    navigateTo("/");
+    if (useRoute().path === `/p/${props.post.id}`) {
+      navigateTo("/");
+    }
   }
 };
 

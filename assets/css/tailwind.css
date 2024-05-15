@@ -10,11 +10,36 @@ body {
 
 html {
   @apply scroll-smooth selection:bg-[#6991e2];
-  scrollbar-gutter: stable;
   width: 100%;
+  overflow-y: scroll;
 }
 
 @layer components {
+  .prose-styles {
+    @apply prose
+    prose-invert
+    prose-sm 
+    sm:prose 
+    lg:prose-lg
+    xl:prose-2xl
+    prose-headings:text-black
+    dark:prose-headings:text-[#c9cccf] 
+    xl:prose-h1:leading-[30px]
+    xl:prose-h1:text-[22px] 
+    xl:prose-h1:font-medium 
+    xl:prose-h2:leading-[28px]
+    xl:prose-h2:text-[20px] 
+    xl:prose-h2:font-medium
+    xl:prose-p:text-black 
+    xl:dark:prose-p:text-[#c9cccf]
+    xl:prose-p:text-[17px]
+    xl:prose-p:leading-[26px]
+    xl:prose-p:font-normal
+    xl:prose-strong:font-[700]
+    xl:prose-li:text-[17px]
+    xl:prose-li:font-normal
+    xl:prose-li:leading-[26px];
+  }
   .custom-transition {
     @apply transition ease-linear duration-100;
   }

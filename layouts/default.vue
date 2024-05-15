@@ -26,7 +26,7 @@
   <div class="min-h-full mt-20">
     <div class="grid grid-cols-12 gap-[30px] mx-auto lg:max-w-[1280px]">
       <div class="hidden md:block xs:col-span-2 xl:col-span-3">
-        <div class="sticky top-20 h-[90vh]">
+        <div class="sticky top-20 h-[90vh] ml-16">
           <SidebarLeft />
         </div>
       </div>

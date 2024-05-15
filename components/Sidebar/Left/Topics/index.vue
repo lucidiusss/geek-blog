@@ -1,6 +1,10 @@
 <template>
-  <div class="mt-5">
-    <h1>Темы</h1>
+  <div class="flex flex-col gap-3 mt-5">
+    <h1
+      class="ml-3 dark:text-[#969c9d] text-black font-normal text-[15px] leading-[22px]"
+    >
+      Темы
+    </h1>
     <!-- <div v-if="isLoading" class="flex flex-col gap-2">
       <div class="bg-stone-500">loading...</div>
       <div class="bg-stone-500">loading...</div>
@@ -14,7 +18,7 @@
         class="flex flex-row items-center gap-2 dark:hover:bg-[#232324] p-3 rounded-xl custom-transition"
         :to="`/t/${topic.short_name}`"
       >
-        <NuxtImg class="w-9 h-9 rounded-full" :src="topic.avatar" />
+        <NuxtImg class="w-7 h-7 rounded-full" :src="topic.avatar" />
         <p class="text-black dark:text-[#c9cccf] font-medium text-[17px]">
           {{ topic.name }}
         </p>

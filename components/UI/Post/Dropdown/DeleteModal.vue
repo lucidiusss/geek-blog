@@ -44,10 +44,6 @@
 <script setup>
 const emit = defineEmits(["deletePost"]);
 const props = defineProps({
-  /* post: {
-    type: Object,
-    required: true,
-  }, */
   isLoading: {
     type: Boolean,
     required: true,

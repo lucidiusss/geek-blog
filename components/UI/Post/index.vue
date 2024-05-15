@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-[500px] relative dark:bg-[#232324] bg-[#ffffff] rounded-xl p-4"
+    class="w-full relative dark:bg-[#232324] bg-[#ffffff] overflow-hidden rounded-xl p-6"
   >
     <div class="flex flex-row items-center justify-between gap-2">
       <div class="flex flex-row items-center gap-2">
@@ -29,10 +29,7 @@
       </div>
     </div>
     <UIPostDropdown ref="target" :post="props.post" v-if="isDropdown" />
-    <div
-      v-html="post.content"
-      class="my-8 prose prose-headings:text-black prose-p:text-black dark:prose-p:text-[#c9cccf] dark:prose-headings:text-[#c9cccf] prose-sm sm:prose lg:prose-lg xl:prose-2xl max-w-none"
-    ></div>
+    <div v-html="post.content" class="my-8 prose-styles"></div>
     <div></div>
   </div>
 </template>
