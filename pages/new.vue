@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full selection:bg-[#6991e2] h-full flex flex-col gap-2">
+  <div class="w-full h-full flex flex-col gap-2">
     <ClientOnly>
       <div v-if="isLoading" class="mx-auto flex items-center h-full"></div>
     </ClientOnly>
