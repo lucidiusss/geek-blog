@@ -140,6 +140,7 @@
         type="password"
         v-model="userStore.password"
         placeholder="Пароль"
+        @keyup.enter="signInWithEmail()"
       />
       <button
         class="w-2/4 font-medium text-[17px] p-3 rounded-xl custom-transition dark:text-[#c9cccf] dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5] bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] text-white"
@@ -218,5 +219,11 @@ const signInWithGithub = async () => {
 onClickOutside(target, () => {
   authModal.isOpen = false;
   authModal.isSignUp = false;
+});
+
+onBeforeUnmount(() => {
+  userStore.email = "";
+  userStore.password = "";
+  userStore.user_name = "";
 });
 </script>

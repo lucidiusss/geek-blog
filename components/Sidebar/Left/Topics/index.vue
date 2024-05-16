@@ -53,3 +53,9 @@ onMounted(() => {
   });
 });
 </script>
+
+<style scoped>
+.router-link-exact-active {
+  @apply dark:bg-[#232324] bg-white;
+}
+</style>

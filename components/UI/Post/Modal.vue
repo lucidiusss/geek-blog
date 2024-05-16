@@ -13,10 +13,7 @@
       />
       <UIPostButton
         icon="heroicons:x-mark-16-solid"
-        @click="
-          postModal.isOpen = false;
-          postModal.isFullscreen = false;
-        "
+        @click="postModal.isModalOpen = false"
       />
     </div>
     <div class="w-full h-full p-10">
@@ -48,7 +45,7 @@
           postModal.isFullscreen ? ' w-1/2 h-[90%] mx-auto' : 'w-full h-fit'
         "
       >
-        <TipTapEditor />
+        <UIPostTipTapEditor />
       </div>
       <div>
         <button @click="createPost()">отправить</button>
@@ -61,16 +58,15 @@
 const user = useSupabaseUser();
 const modal = ref(null);
 const postModal = usePostModal();
-const userStore = useUserStore();
 
 onClickOutside(modal, () => {
-  postModal.isOpen = false;
   postModal.isFullscreen = false;
+  postModal.isModalOpen = false;
 });
 
 const createPost = async () => {
   try {
-    const post = await useFetch("/api/create-post/", {
+    await useFetch("/api/create-post/", {
       method: "POST",
       body: {
         userId: user.value.identities[0].user_id,
@@ -84,12 +80,11 @@ const createPost = async () => {
         picture: "http://placekitten.com/200/200",
       },
     });
-    /* userStore.posts.push(post.data); */
   } catch (err) {
     console.log(err);
   } finally {
-    postModal.isOpen = false;
     postModal.isFullscreen = false;
+    postModal.isModalOpen = false;
     postModal.content = "";
   }
 };

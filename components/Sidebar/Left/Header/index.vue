@@ -1,17 +1,26 @@
 <template>
   <nav>
     <ul class="dark:text-[#c9cccf] text-black text-[17px]">
-      <NuxtLink to="/popular">
-        <SidebarLeftHeaderLink icon="ph:fire-simple-bold" name="Популярное" />
+      <NuxtLink
+        class="dark:hover:bg-[#232324] mb-3 flex flex-row p-3 rounded-xl custom-transition gap-2"
+        to="/popular"
+      >
+        <Icon name="ph:fire-simple-bold" size="24" />
+        <p class="topic">Популярное</p>
       </NuxtLink>
-      <NuxtLink to="/new">
-        <SidebarLeftHeaderLink icon="iconamoon:clock" name="Свежее" />
+      <NuxtLink
+        class="dark:hover:bg-[#232324] mb-3 flex flex-row p-3 rounded-xl custom-transition gap-2"
+        to="/new"
+      >
+        <Icon name="iconamoon:clock" size="24" />
+        <p class="topic">Свежее</p>
       </NuxtLink>
-      <NuxtLink to="/my">
-        <SidebarLeftHeaderLink
-          icon="material-symbols:feed-outline-rounded"
-          name="Моя лента"
-        />
+      <NuxtLink
+        class="dark:hover:bg-[#232324] flex flex-row p-3 rounded-xl custom-transition gap-2"
+        to="/my"
+      >
+        <Icon name="material-symbols:feed-outline-rounded" size="24" />
+        <p class="topic">Моя лента</p>
       </NuxtLink>
     </ul>
   </nav>
@@ -20,7 +29,10 @@
 <script setup></script>
 
 <style scoped>
+.topic {
+  @apply dark:text-[#c9cccf] text-black !important;
+}
 .router-link-exact-active {
-  @apply text-[#0b5dd7];
+  @apply text-[#0b5dd7] dark:bg-[#232324] bg-white;
 }
 </style>

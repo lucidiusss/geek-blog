@@ -1,8 +1,5 @@
 <template>
   <div class="w-full h-full flex flex-col gap-6">
-    <ClientOnly>
-      <div v-if="isLoading" class="mx-auto flex items-center h-full"></div>
-    </ClientOnly>
     <div
       v-if="!isLoading"
       v-for="post in posts"
@@ -10,11 +7,13 @@
     >
       <UIPost v-if="isPosts" :post="post" :key="post" />
     </div>
-    <div class="flex flex-col gap-6" v-if="isLoading">
-      <UIPostSkeleton />
-      <UIPostSkeleton />
-      <UIPostSkeleton />
-    </div>
+    <ClientOnly>
+      <div class="flex flex-col gap-6" v-if="isLoading">
+        <UIPostSkeleton />
+        <UIPostSkeleton />
+        <UIPostSkeleton />
+      </div>
+    </ClientOnly>
     <div
       v-if="!isPosts"
       class="w-full h-2/4 dark:bg-[#232324] flex flex-col gap-10 items-center justify-center bg-[#ffffff] rounded-xl p-4"
@@ -39,16 +38,6 @@ let realtimeChannel = RealtimeChannel;
 let posts = ref([]);
 let isLoading = ref(true);
 let isPosts = ref(true);
-
-onBeforeMount(async () => {
-  try {
-    await userStore.getAllPosts();
-  } catch (err) {
-    console.log(err);
-  } finally {
-    isLoading.value = false;
-  }
-});
 
 watchEffect(() => {
   realtimeChannel = client
@@ -83,6 +72,16 @@ watchEffect(() => {
     );
 
   realtimeChannel.subscribe();
+});
+
+onBeforeMount(async () => {
+  try {
+    await userStore.getAllPosts();
+  } catch (err) {
+    console.log(err);
+  } finally {
+    isLoading.value = false;
+  }
 });
 
 watch(posts, () => {

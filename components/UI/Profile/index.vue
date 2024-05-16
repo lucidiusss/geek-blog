@@ -11,7 +11,9 @@
     </div>
     <div class="flex items-center gap-2">
       <button
-        @click="!user ? (authModal.isOpen = true) : (postModal.isOpen = true)"
+        @click="
+          !user ? (authModal.isOpen = true) : (postModal.isModalOpen = true)
+        "
         class="dark:text-[#c9cccf] font-medium leading-4 text-black px-3 py-2 border dark:border-transparent border-[#f0f0f0] bg-white hover:shadow custom-transition rounded-full dark:bg-[#2c2c2c] text-[17px] dark:hover:border-[#474747]"
       >
         <Icon
@@ -37,10 +39,10 @@
   </div>
 
   <Teleport to="body">
-    <UIAuthBackground v-show="authModal.isOpen || postModal.isOpen" />
+    <UIAuthBackground v-show="authModal.isOpen || postModal.isModalOpen" />
     <TransitionFade>
       <UIAuthModal v-if="authModal.isOpen" />
-      <UIPostModal v-if="postModal.isOpen && user" />
+      <UIPostModal v-if="postModal.isModalOpen && user" />
     </TransitionFade>
   </Teleport>
 </template>

@@ -1,14 +1,14 @@
 <template>
   <div>
     <div
+      :class="postModal.isFullscreen ? 'block' : 'hidden'"
       v-if="editor"
       class="text-white"
-      :class="postModal.isFullscreen ? 'block' : 'hidden'"
     >
       <TiptapBubbleMenu
         :editor="editor"
+        v-show="!postModal.isFullscreen"
         :tippy-options="{ duration: 100 }"
-        v-if="editor && !postModal.isFullscreen"
         class="dark:bg-[#1f1f1f] p-2 rounded-xl border border-1 dark:border-[#2d2d2d] shadow-xl"
       >
         <div class="flex flex-row gap-1 items-center">
@@ -158,6 +158,7 @@ import Underline from "@tiptap/extension-underline";
 import CodeBlock from "@tiptap/extension-code-block";
 
 const postModal = usePostModal();
+
 const editor = useEditor({
   onUpdate: ({ editor }) => {
     postModal.content = editor.getHTML();
@@ -180,13 +181,14 @@ const editor = useEditor({
 
   editorProps: {
     attributes: {
-      class: `${
-        postModal.isFullscreen ? "h-2/3 w-full p-4" : "p-2 max-h-[500px] w-full"
-      } bg-transparent prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl  overflow-y-auto max-w-none focus:outline-none dark:text-[#c9cccf] text-black`,
+      class: ` bg-transparent prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl  overflow-y-auto max-w-none focus:outline-none dark:text-[#c9cccf] text-black`,
     },
   },
 });
 
+/* ${
+     postModal.isFullscreen    ? "h-2/3 w-full p-4" : "p-2 max-h-[500px] w-full"
+      } */
 onBeforeUnmount(() => {
   unref(editor).destroy();
 });

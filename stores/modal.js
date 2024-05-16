@@ -24,11 +24,3 @@ export const useUserModal = defineStore("userModal", {
     },
   },
 });
-
-export const usePostModal = defineStore("postModal", {
-  state: () => ({
-    isDropdown: false,
-    isFullscreen: false,
-    content: {},
-  }),
-});
