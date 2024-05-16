@@ -53,7 +53,6 @@
       <div>
         <button @click="createPost()">отправить</button>
       </div>
-      <div>{{ postModal.content }}</div>
     </div>
   </div>
 </template>

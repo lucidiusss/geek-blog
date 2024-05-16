@@ -40,6 +40,7 @@
     :isDeleting="isDeleting"
     :post="props.post"
     @delete-post="deletePost()"
+    @toggle-modal="toggleModal()"
     v-if="isDeleting"
   />
 </template>
@@ -55,6 +56,10 @@ const props = defineProps({
     required: true,
   },
 });
+
+const toggleModal = () => {
+  isDeleting.value = !isDeleting.value;
+};
 
 const deletePost = async () => {
   isDeleting.value = true;

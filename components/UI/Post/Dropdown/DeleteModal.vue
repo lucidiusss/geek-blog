@@ -9,6 +9,7 @@
         Удалить
       </h1>
       <button
+        @click="emit('toggleModal')"
         class="rounded-full dark:hover:bg-[#2c2c2c] hover:bg-[#f0f0f0] p-1"
       >
         <Icon
@@ -26,6 +27,7 @@
       </div>
       <div class="flex flex-row justify-end gap-7">
         <button
+          @click="emit('toggleModal')"
           class="py-2 px-3 rounded-xl text-white dark:text-[#c9cccf] dark:bg-[#2c2c2c] border dark:border-[#303030] dark:hover:border-[#373737] dark:active:border-[#424242]"
         >
           Отменить
@@ -42,7 +44,7 @@
 </template>
 
 <script setup>
-const emit = defineEmits(["deletePost"]);
+const emit = defineEmits(["deletePost", "toggleModal"]);
 const props = defineProps({
   isLoading: {
     type: Boolean,

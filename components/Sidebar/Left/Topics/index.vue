@@ -5,16 +5,19 @@
     >
       Темы
     </h1>
-    <!-- <div v-if="isLoading" class="flex flex-col gap-2">
-      <div class="bg-stone-500">loading...</div>
-      <div class="bg-stone-500">loading...</div>
-      <div class="bg-stone-500">loading...</div>
-      
-    </div> -->
-    <div v-for="topic in topics">
-      <div v-if="isLoading" class="bg-stone-500">loading...</div>
+    <div class="flex flex-col gap-2" v-if="isLoading">
+      <SidebarLeftTopicsSkeleton />
+      <SidebarLeftTopicsSkeleton />
+      <SidebarLeftTopicsSkeleton />
+      <SidebarLeftTopicsSkeleton />
+    </div>
+    <div
+      v-motion-fade
+      v-if="!isLoading"
+      class="flex flex-col gap-2"
+      v-for="topic in topics"
+    >
       <NuxtLink
-        v-else
         class="flex flex-row items-center gap-2 dark:hover:bg-[#232324] p-3 rounded-xl custom-transition"
         :to="`/t/${topic.short_name}`"
       >

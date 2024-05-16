@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full flex flex-col gap-2">
+  <div class="w-full h-full flex flex-col gap-6">
     <ClientOnly>
       <div v-if="isLoading" class="mx-auto flex items-center h-full"></div>
     </ClientOnly>
@@ -8,7 +8,12 @@
       v-for="post in posts"
       class="dark:text-[#c9cccf] text-black font-medium text-[17px]"
     >
-      <LazyUIPost :post="post" :key="post" />
+      <UIPost v-if="isPosts" :post="post" :key="post" />
+    </div>
+    <div class="flex flex-col gap-6" v-if="isLoading">
+      <UIPostSkeleton />
+      <UIPostSkeleton />
+      <UIPostSkeleton />
     </div>
     <div
       v-if="!isPosts"

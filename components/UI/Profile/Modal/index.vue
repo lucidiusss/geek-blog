@@ -11,6 +11,7 @@
         >
           <div class="flex gap-2 items-center">
             <NuxtImg
+              v-motion-fade
               class="w-9 h-9 rounded-full border dark:border-[#2f2f2f]"
               :src="
                 user?.user_metadata.avatar_url

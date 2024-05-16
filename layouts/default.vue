@@ -1,11 +1,11 @@
 <template>
   <div
-    class="fixed top-0 left-0 z-10 dark:bg-[#26282b] bg-[#d9f0ff] h-[60px] w-screen"
+    class="fixed top-0 left-0 z-10 dark:bg-[#26282b] bg-[#d9f0ff] h-[60px] w-full"
   >
     <div
       class="grid grid-cols-12 gap-6 justify-center mx-auto lg:max-w-[1280px] h-[60px]"
     >
-      <div class="xs:col-span-2 xl:col-span-3 flex items-center">
+      <div class="xs:col-span-2 xl:col-span-3 ml-[76px] flex items-center">
         <UILogo />
       </div>
       <div
@@ -23,7 +23,7 @@
       </div>
     </div>
   </div>
-  <div class="min-h-full mt-20">
+  <div class="min-h-full mt-20 w-full">
     <div class="grid grid-cols-12 gap-[30px] mx-auto lg:max-w-[1280px]">
       <div class="hidden md:block xs:col-span-2 xl:col-span-3">
         <div class="sticky top-20 h-[90vh] ml-16">

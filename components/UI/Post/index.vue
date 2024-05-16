@@ -1,9 +1,9 @@
 <template>
   <div
-    class="w-full relative dark:bg-[#232324] bg-[#ffffff] overflow-hidden rounded-xl p-6"
+    class="relative dark:bg-[#232324] bg-[#ffffff] min-h-[200px] overflow-hidden rounded-xl p-6"
   >
     <div class="flex flex-row items-center justify-between gap-2">
-      <div class="flex flex-row items-center gap-2">
+      <div v-motion-fade class="flex flex-row items-center gap-2">
         <NuxtImg :src="post?.image" class="w-9 h-9 rounded-full" />
         <NuxtLink :to="`/u/${post.username}`">{{ post?.username }}</NuxtLink>
         <NuxtLink :to="`/p/${post.id}`">
@@ -13,7 +13,8 @@
           >
         </NuxtLink>
       </div>
-      <div class="flex flex-row items-center gap-4">
+
+      <div v-motion-fade class="flex flex-row items-center gap-4">
         <button
           v-if="post.userId !== user?.id"
           class="py-2 px-3 rounded-lg bg-[#f0f0f0] hover:bg-[#e6e6e6] active:bg-[#dbdbdb] dark:active:bg-[#2c2c2c] dark:bg-[#333333] dark:hover:bg-[#2c2c2c] font-medium text-[13px]"
@@ -28,25 +29,17 @@
         </button>
       </div>
     </div>
-    <UIPostDropdown ref="target" :post="props.post" v-if="isDropdown" />
-    <div v-html="post.content" class="my-8 prose-styles"></div>
-    <div></div>
+    <UIPostDropdown
+      class="absolute w-1/4 top-14 right-5"
+      ref="target"
+      :post="props.post"
+      v-if="isDropdown"
+    />
+    <div v-motion-fade v-html="post.content" class="my-8 prose-styles"></div>
   </div>
 </template>
 
 <script setup>
-/* import Bold from "@tiptap/extension-bold";
-import Document from "@tiptap/extension-document";
-import Paragraph from "@tiptap/extension-paragraph";
-import Heading from "@tiptap/extension-heading";
-import Italic from "@tiptap/extension-italic";
-import Strike from "@tiptap/extension-strike";
-import Text from "@tiptap/extension-text";
-import Underline from "@tiptap/extension-underline";
-import CodeBlock from "@tiptap/extension-code-block";
-import Code from "@tiptap/extension-code";
-import { generateHTML } from "@tiptap/html"; */
-
 const user = useSupabaseUser();
 const target = ref(null);
 const ignoreEl = ref(null);
@@ -68,19 +61,4 @@ onClickOutside(
   },
   { ignore: [ignoreEl] }
 );
-
-/* let output = computed(() => {
-  return generateHTML(props.post.content, [
-    Code,
-    CodeBlock,
-    Document,
-    Paragraph,
-    Strike,
-    Heading,
-    Italic,
-    Text,
-    Bold,
-    Underline,
-  ]);
-}); */
 </script>
