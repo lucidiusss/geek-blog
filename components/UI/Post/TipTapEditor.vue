@@ -181,14 +181,13 @@ const editor = useEditor({
 
   editorProps: {
     attributes: {
-      class: ` bg-transparent prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl  overflow-y-auto max-w-none focus:outline-none dark:text-[#c9cccf] text-black`,
+      class: ` ${
+        postModal.isFullscreen ? "h-2/3 w-full p-4" : "p-2 max-h-[500px] w-full"
+      } bg-transparent prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl  overflow-y-auto max-w-none focus:outline-none dark:text-[#c9cccf] text-black`,
     },
   },
 });
 
-/* ${
-     postModal.isFullscreen    ? "h-2/3 w-full p-4" : "p-2 max-h-[500px] w-full"
-      } */
 onBeforeUnmount(() => {
   unref(editor).destroy();
 });

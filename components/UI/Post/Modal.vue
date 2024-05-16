@@ -40,15 +40,22 @@
         </div>
       </div>
 
-      <div
-        :class="
-          postModal.isFullscreen ? ' w-1/2 h-[90%] mx-auto' : 'w-full h-fit'
-        "
-      >
-        <UIPostTipTapEditor />
-      </div>
-      <div>
-        <button @click="createPost()">отправить</button>
+      <div class="">
+        <div
+          :class="
+            postModal.isFullscreen ? ' w-1/2 h-[90%] mx-auto' : 'w-full h-1/3'
+          "
+        >
+          <UIPostTipTapEditor />
+        </div>
+        <div class="w-full">
+          <button
+            class="px-4 py-3 custom-transition leading-[17px] text-[17px] font-medium rounded-xl dark:text-white bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5]"
+            @click="createPost()"
+          >
+            Опубликовать
+          </button>
+        </div>
       </div>
     </div>
   </div>

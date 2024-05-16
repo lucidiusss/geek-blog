@@ -17,9 +17,9 @@ html {
 @layer components {
   .prose-styles {
     @apply prose
-    prose-invert
+    dark:prose-invert
     prose-sm 
-    sm:prose 
+    sm:prose
     lg:prose-lg
     xl:prose-2xl
     prose-headings:text-black
@@ -35,10 +35,14 @@ html {
     xl:prose-p:text-[17px]
     xl:prose-p:leading-[26px]
     xl:prose-p:font-normal
-    xl:prose-strong:font-[700]
     xl:prose-li:text-[17px]
     xl:prose-li:font-normal
-    xl:prose-li:leading-[26px];
+    xl:prose-li:leading-[26px]
+    xl:prose-strong:text-[17px]
+    xl:prose-strong:font-normal
+    xl:prose-strong:leading-[26px]
+    xl:prose-strong:text-black
+    xl:dark:prose-strong:text-[#c9cccf];
   }
   .custom-transition {
     @apply transition ease-linear duration-100;

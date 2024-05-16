@@ -1,12 +1,11 @@
 <template>
-  <div class="flex flex-col gap-3 mt-5">
+  <div class="flex flex-col gap-3 mt-5 min-h-[250px]">
     <h1
       class="ml-3 dark:text-[#969c9d] text-black font-normal text-[15px] leading-[22px]"
     >
       Темы
     </h1>
-    <div class="flex flex-col gap-2" v-if="isLoading">
-      <SidebarLeftTopicsSkeleton />
+    <div class="flex flex-col gap-2 h-full" v-if="isLoading">
       <SidebarLeftTopicsSkeleton />
       <SidebarLeftTopicsSkeleton />
       <SidebarLeftTopicsSkeleton />
@@ -14,7 +13,7 @@
     <div
       v-motion-fade
       v-if="!isLoading"
-      class="flex flex-col gap-2"
+      class="flex flex-col gap-2 h-full"
       v-for="topic in topics"
     >
       <NuxtLink
@@ -34,6 +33,7 @@
 const userStore = useUserStore();
 let topics = ref([]);
 let isLoading = ref(true);
+let isTopics = ref(false);
 
 onBeforeMount(async () => {
   try {
@@ -49,6 +49,7 @@ onMounted(() => {
   watchEffect(() => {
     if (userStore.topics && userStore.topics.length >= 1) {
       topics.value = userStore.topics;
+      isTopics.value = true;
     }
   });
 });
