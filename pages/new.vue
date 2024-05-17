@@ -41,10 +41,10 @@ let isPosts = ref(true);
 
 watchEffect(() => {
   realtimeChannel = client
-    .channel("posts-insert")
+    .channel("post-insert")
     .on(
       "postgres_changes",
-      { event: "INSERT", schema: "public", table: "Posts" },
+      { event: "INSERT", schema: "public", table: "Post" },
       (payload) => {
         console.log(payload);
         posts.value.unshift(payload.new);
@@ -56,14 +56,14 @@ watchEffect(() => {
 
 watchEffect(() => {
   realtimeChannel = client
-    .channel("posts-delete")
+    .channel("post-delete")
     .on(
       "postgres_changes",
-      { event: "DELETE", schema: "public", table: "Posts" },
+      { event: "DELETE", schema: "public", table: "Post" },
       (payload) => {
         console.log(payload);
         const index = posts.value.findIndex(
-          (post) => post.user.id === payload.old.id
+          (post) => post.id === payload.old.id
         );
         if (index !== -1) {
           posts.value.splice(index, 1);

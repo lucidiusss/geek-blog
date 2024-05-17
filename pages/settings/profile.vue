@@ -59,13 +59,13 @@ const updateProfile = async () => {
         description: description.value,
       },
     });
-    /* await client
-      .from("profiles")
+    await client
+      .from("User")
       .update({
-        user_name: username.value,
+        username: username.value,
         description: description.value,
       })
-      .eq("id", user.value.id); */
+      .eq("id", user.value.id);
   } catch (err) {
     console.log(err);
   } finally {

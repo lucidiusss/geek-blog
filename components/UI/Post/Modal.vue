@@ -77,7 +77,7 @@ onClickOutside(modal, () => {
 
 const createPost = async () => {
   try {
-    await useFetch("/api/create-post/", {
+    await $fetch("/api/create-post/", {
       method: "POST",
       body: {
         userId: user.value.id,
