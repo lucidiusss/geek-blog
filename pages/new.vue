@@ -63,7 +63,7 @@ watchEffect(() => {
       (payload) => {
         console.log(payload);
         const index = posts.value.findIndex(
-          (post) => post.id === payload.old.id
+          (post) => post.user.id === payload.old.id
         );
         if (index !== -1) {
           posts.value.splice(index, 1);
