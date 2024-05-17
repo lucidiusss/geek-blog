@@ -21,7 +21,11 @@
         <div>
           <NuxtImg
             class="w-9 h-9 rounded-full"
-            :src="user?.user_metadata.avatar_url"
+            :src="
+              user?.user_metadata.avatar_url
+                ? user?.user_metadata.avatar_url
+                : `https://ui-avatars.com/api/?name=${user.user_metadata.user_name}`
+            "
           />
         </div>
         <div class="flex items-start flex-col">
@@ -71,13 +75,12 @@ onClickOutside(modal, () => {
   postModal.isModalOpen = false;
 });
 
-console.log(user.value.identities[0].identity_data);
 const createPost = async () => {
   try {
     await useFetch("/api/create-post/", {
       method: "POST",
       body: {
-        userId: user.value.user_metadata.sub,
+        userId: user.value.id,
         username: user.value.user_metadata.user_name,
         image: `${
           user.value.user_metadata.avatar_url

@@ -3,9 +3,11 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export default defineEventHandler(async () => {
-  let posts = await prisma.posts.findMany({
+  let posts = await prisma.post.findMany({
     orderBy: { id: "desc" },
-    include: { likes: true },
+    include: {
+      user: true,
+    },
   });
   return posts;
 });

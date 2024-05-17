@@ -10,7 +10,7 @@
           class="w-9 h-9 rounded-full"
         />
         <NuxtLink v-motion-fade :to="`/u/${post.username}`">{{
-          post?.username
+          post.username
         }}</NuxtLink>
         <div>
           <NuxtLink
@@ -72,14 +72,23 @@ const props = defineProps({
   },
 });
 
-onBeforeMount(async () => {
+console.log(props.post);
+/* console.log(thisUser.value);
+const getUser = async () => {
+  if (!props.post.userId) return;
   try {
-    const { data } = await client.from("profiles").select("*");
-    console.log(data);
+    const { data } = await client
+      .from("profiles")
+      .select("*")
+      .eq("id", props.post.userId);
+    thisUser.value = data;
+    console.log(thisUser.value);
   } catch (err) {
     console.log(err);
   }
-});
+};
+
+watch(() => props.post.userId, getUser()); */
 
 const timeAgo = useTimeAgo(props.post.createdAt);
 

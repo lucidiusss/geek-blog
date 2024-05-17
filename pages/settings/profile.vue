@@ -59,8 +59,16 @@ const updateProfile = async () => {
         description: description.value,
       },
     });
+    /* await client
+      .from("profiles")
+      .update({
+        user_name: username.value,
+        description: description.value,
+      })
+      .eq("id", user.value.id); */
   } catch (err) {
     console.log(err);
+  } finally {
   }
 };
 </script>
