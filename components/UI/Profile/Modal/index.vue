@@ -5,7 +5,7 @@
   >
     <h1 class="text-[17px] select-none ml-3 my-2">Мой профиль</h1>
     <ul class="select-none mb-2">
-      <NuxtLink :to="`/u/${user?.identities[0].identity_data.user_name}`">
+      <NuxtLink :to="`/u/${user?.user_metadata.user_name}`">
         <li
           class="dark:hover:bg-[#313131] hover:bg-[#f2f2f2] font-medium cursor-pointer p-3 rounded-xl custom-transition"
         >
@@ -16,12 +16,12 @@
               :src="
                 user?.user_metadata.avatar_url
                   ? user?.user_metadata.avatar_url
-                  : 'https://placebear.com/200/200'
+                  : `https://ui-avatars.com/api/?name=${user.user_metadata.user_name}`
               "
             />
             <div>
               <h1 class="font-bold">
-                {{ user?.identities[0].identity_data.user_name }}
+                {{ user?.user_metadata.user_name }}
               </h1>
             </div>
           </div>

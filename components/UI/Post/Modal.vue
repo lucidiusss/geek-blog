@@ -71,17 +71,18 @@ onClickOutside(modal, () => {
   postModal.isModalOpen = false;
 });
 
+console.log(user.value.identities[0].identity_data);
 const createPost = async () => {
   try {
     await useFetch("/api/create-post/", {
       method: "POST",
       body: {
-        userId: user.value.identities[0].user_id,
-        username: user.value.identities[0].identity_data.user_name,
+        userId: user.value.user_metadata.sub,
+        username: user.value.user_metadata.user_name,
         image: `${
-          user.value.identities[0].identity_data.avatar_url
-            ? user.value.identities[0].identity_data.avatar_url
-            : "http://placebear.com/200/200"
+          user.value.user_metadata.avatar_url
+            ? user.value.user_metadata.avatar_url
+            : `https://ui-avatars.com/api/?name=${user.value.user_metadata.user_name}`
         }`,
         content: postModal.content,
         picture: "http://placekitten.com/200/200",

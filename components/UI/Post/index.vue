@@ -63,12 +63,22 @@ const client = useSupabaseClient();
 const target = ref(null);
 const ignoreEl = ref(null);
 let isDropdown = ref(false);
+const thisUser = ref({});
 
 const props = defineProps({
   post: {
     type: Object,
     required: true,
   },
+});
+
+onBeforeMount(async () => {
+  try {
+    const { data } = await client.from("profiles").select("*");
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 const timeAgo = useTimeAgo(props.post.createdAt);

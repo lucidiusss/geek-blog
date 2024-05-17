@@ -11,7 +11,7 @@
         :src="
           user?.user_metadata.avatar_url
             ? user?.user_metadata.avatar_url
-            : 'https://placebear.com/200/200'
+            : `https://ui-avatars.com/api/?name=${user.user_metadata.user_name}`
         "
       />
       <Icon class="dark:text-[#c9cccf]" size="15" name="lucide:chevron-down" />
