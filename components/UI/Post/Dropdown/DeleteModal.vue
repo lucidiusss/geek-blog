@@ -28,12 +28,12 @@
       <div class="flex flex-row justify-end gap-7">
         <button
           @click="emit('toggleModal')"
-          class="py-2 px-3 rounded-xl text-white dark:text-[#c9cccf] dark:bg-[#2c2c2c] border dark:border-[#303030] dark:hover:border-[#373737] dark:active:border-[#424242]"
+          class="py-2 px-3 rounded-xl text-[17px] font-medium text-black dark:text-[#c9cccf] dark:bg-[#2c2c2c] border dark:border-[#303030] dark:hover:border-[#373737] dark:active:border-[#424242] hover:shadow custom-transition"
         >
           Отменить
         </button>
         <button
-          class="py-2 px-3 rounded-xl dark:text-white dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5]"
+          class="py-2 px-3 rounded-xl text-[17px] font-medium text-white dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5] bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] custom-transition"
           @click="emit('deletePost')"
         >
           Подтвердить

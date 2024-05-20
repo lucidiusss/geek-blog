@@ -5,6 +5,8 @@ export const useUserStore = defineStore("user", {
     posts: [],
     singlePost: {},
     topics: [],
+    fetchedUser: {},
+    currentUser: {},
     isLoading: true,
     user_name: "",
     email: "",
@@ -30,6 +32,16 @@ export const useUserStore = defineStore("user", {
     async getSinglePost(id) {
       const res = await useFetch(`/api/find-post/${id}`);
       this.singlePost = res.data;
+      return res.data;
+    },
+    async getUserByUuid(id) {
+      const res = await useFetch(`/api/get-user-by-uuid/${id}`);
+      this.fetchedUser = res.data;
+      return res.data;
+    },
+    async getUserById(id) {
+      const res = await useFetch(`/api/get-user-by-id/${id}`);
+      this.fetchedUser = res.data;
       return res.data;
     },
   },

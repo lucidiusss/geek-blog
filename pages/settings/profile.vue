@@ -3,25 +3,33 @@
     class="dark:bg-[#232324] bg-[#ffffff] min-h-[350px] overflow-hidden rounded-xl"
   >
     <div
-      class="border-b p-4 relative gap-5 flex flex-row items-center w-full dark:border-[#353436]"
+      class="border-b p-4 relative flex flex-row justify-between items-center w-full dark:border-[#353436]"
     >
-      <NuxtLink to="/settings">
-        <div
-          class="hover:bg-[#f0f0f0] top-1/2 -translate-y-1/2 left-4 absolute p-1 dark:hover:bg-[#333333] rounded-full"
+      <div class="w-full flex flex-row gap-5">
+        <NuxtLink to="/settings">
+          <div
+            class="hover:bg-[#f0f0f0] top-1/2 -translate-y-1/2 left-4 absolute p-1 dark:hover:bg-[#333333] rounded-full"
+          >
+            <Icon
+              name="ph:arrow-left"
+              size="25"
+              class="text-black dark:text-[#c9cccf]"
+            />
+          </div>
+        </NuxtLink>
+        <h1
+          class="font-medium text-[17px] leading-[26px] ml-5 text-black dark:text-[#c9cccf]"
         >
-          <Icon
-            name="ph:arrow-left"
-            size="25"
-            class="text-black dark:text-[#c9cccf]"
-          />
-        </div>
-      </NuxtLink>
-      <h1
-        class="font-medium text-[17px] leading-[26px] ml-5 text-black dark:text-[#c9cccf]"
+          Профиль
+        </h1>
+      </div>
+      <button
+        :class="hasChanged ? 'block' : 'hidden'"
+        class="text-[17px] leading-[26px] dark:text-[rgb(65,138,244)] dark:hover:text-[#396eba] text-[#0b5dd7] hover:text-[#4f8ae2]"
+        @click="updateProfile()"
       >
-        Профиль
-      </h1>
-      <button @click="updateProfile()">Сохранить</button>
+        Сохранить
+      </button>
     </div>
     <div class="p-4 flex flex-col gap-4 items-center">
       <div class="w-2/4 flex flex-col gap-3">
@@ -50,6 +58,18 @@ const user = useSupabaseUser();
 const client = useSupabaseClient();
 let username = ref(user.value.user_metadata.user_name);
 let description = ref(user.value.user_metadata.description);
+let hasChanged = ref(false);
+
+watchEffect(() => {
+  if (
+    username.value !== user.value.user_metadata.user_name ||
+    description.value !== user.value.user_metadata.description
+  ) {
+    hasChanged.value = true;
+  } else {
+    hasChanged.value = false;
+  }
+});
 
 const updateProfile = async () => {
   try {

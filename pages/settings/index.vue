@@ -41,7 +41,7 @@
 const links = [
   {
     name: "Профиль",
-    description: "Аватарка, Описание",
+    description: "Название, Описание",
     icon: "ic:outline-person-outline",
     to: "/settings/profile",
   },

@@ -1,13 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: false },
+  devtools: { enabled: true },
   modules: [
     "@pinia/nuxt",
     "@nuxt/ui",
     "@nuxtjs/supabase",
     "@nuxtjs/tailwindcss",
     "@nuxt/image",
-    "@nuxtjs/color-mode",
     "nuxt-icon",
     "@nuxtjs/google-fonts",
     "@vueuse/nuxt",
@@ -15,7 +14,8 @@ export default defineNuxtConfig({
     "@morev/vue-transitions/nuxt",
     "@vueuse/motion/nuxt",
     "nuxt-tiptap-editor",
-    "@nuxtjs/i18n"
+    "@nuxtjs/i18n",
+    "@nuxtjs/color-mode",
   ],
   tiptap: {
     prefix: "Tiptap",

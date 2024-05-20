@@ -22,7 +22,6 @@
 
 <script setup>
 const user = useSupabaseUser();
-const userModal = useUserModal();
 
 const target = ref(null);
 const ignoreEl = ref(null);

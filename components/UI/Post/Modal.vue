@@ -54,7 +54,7 @@
         </div>
         <div class="w-full">
           <button
-            class="px-4 py-3 custom-transition leading-[17px] text-[17px] font-medium rounded-xl dark:text-white bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5]"
+            class="px-4 py-3 custom-transition leading-[17px] text-[17px] font-medium rounded-xl text-white bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5]"
             @click="createPost()"
           >
             Опубликовать

@@ -13,9 +13,11 @@
           "
           class="w-9 h-9 rounded-full"
         />
-        <NuxtLink v-motion-fade :to="`/u/${post.user?.username}`">{{
-          post?.user?.username
-        }}</NuxtLink>
+        <NuxtLink
+          v-motion-fade
+          :to="`/u/${post.user?.shortId}-${post.user?.username}`"
+          >{{ post?.user?.username }}</NuxtLink
+        >
         <div>
           <NuxtLink
             v-if="useRoute().path == `/new`"

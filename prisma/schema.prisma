@@ -37,6 +37,7 @@ model Category {
 
 model User {
   id String @db.Uuid @unique
+  shortId Int @id @default(autoincrement())
   profileImage String?
   email String?
   name String?
@@ -44,7 +45,6 @@ model User {
   description String?
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   post Post[]
 }

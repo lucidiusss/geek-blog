@@ -5,7 +5,9 @@
   >
     <h1 class="text-[17px] select-none ml-3 my-2">Мой профиль</h1>
     <ul class="select-none mb-2">
-      <NuxtLink :to="`/u/${user?.user_metadata.user_name}`">
+      <NuxtLink
+        :to="`/u/${userStore.fetchedUser?.shortId}-${user?.user_metadata.user_name}`"
+      >
         <li
           class="dark:hover:bg-[#313131] hover:bg-[#f2f2f2] font-medium cursor-pointer p-3 rounded-xl custom-transition"
         >
@@ -102,9 +104,9 @@
 
 <script setup>
 const user = useSupabaseUser();
+const userStore = useUserStore();
 const client = useSupabaseClient();
 const colorMode = useColorMode();
-const userStore = useUserStore();
 const target = ref(null);
 let isDropdown = ref(false);
 const ignoreEl = ref(null);
