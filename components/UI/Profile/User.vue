@@ -9,23 +9,35 @@
         v-motion-fade
         class="w-9 h-9 rounded-full custom-transition"
         :src="
-          user?.user_metadata.avatar_url
-            ? user?.user_metadata.avatar_url
-            : `https://ui-avatars.com/api/?name=${user.user_metadata.user_name}`
+          currentUser?.profileImage
+            ? currentUser?.profileImage
+            : `https://ui-avatars.com/api/?name=${currentUser?.username}`
         "
       />
       <Icon class="dark:text-[#c9cccf]" size="15" name="lucide:chevron-down" />
     </button>
   </div>
-  <UIProfileModal ref="target" v-if="isDropdown && user" />
+  <UIProfileModal
+    :currentUser="props.currentUser"
+    ref="target"
+    v-if="isDropdown && user"
+  />
 </template>
 
 <script setup>
 const user = useSupabaseUser();
+const userStore = useUserStore();
 
 const target = ref(null);
 const ignoreEl = ref(null);
 let isDropdown = ref(false);
+
+const props = defineProps({
+  currentUser: {
+    type: Object,
+    required: true,
+  },
+});
 
 onClickOutside(
   target,

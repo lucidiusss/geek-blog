@@ -44,5 +44,10 @@ export const useUserStore = defineStore("user", {
       this.fetchedUser = res.data;
       return res.data;
     },
+    async getAuthenticatedUser(id) {
+      const res = await useFetch(`/api/get-user-by-uuid/${id}`);
+      this.currentUser = res.data;
+      return res.data;
+    },
   },
 });

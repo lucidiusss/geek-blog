@@ -39,6 +39,7 @@ model User {
   id String @db.Uuid @unique
   shortId Int @id @default(autoincrement())
   profileImage String?
+  bannerImage String?
   email String?
   name String?
   username String

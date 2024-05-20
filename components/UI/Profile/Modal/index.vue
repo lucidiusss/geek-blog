@@ -5,9 +5,7 @@
   >
     <h1 class="text-[17px] select-none ml-3 my-2">Мой профиль</h1>
     <ul class="select-none mb-2">
-      <NuxtLink
-        :to="`/u/${userStore.fetchedUser?.shortId}-${user?.user_metadata.user_name}`"
-      >
+      <NuxtLink :to="`/u/${currentUser?.shortId}-${currentUser?.username}`">
         <li
           class="dark:hover:bg-[#313131] hover:bg-[#f2f2f2] font-medium cursor-pointer p-3 rounded-xl custom-transition"
         >
@@ -16,14 +14,14 @@
               v-motion-fade
               class="w-9 h-9 rounded-full border dark:border-[#2f2f2f]"
               :src="
-                user?.user_metadata.avatar_url
-                  ? user?.user_metadata.avatar_url
-                  : `https://ui-avatars.com/api/?name=${user.user_metadata.user_name}`
+                currentUser?.profileImage
+                  ? currentUser?.profileImage
+                  : `https://ui-avatars.com/api/?name=${currentUser?.username}`
               "
             />
             <div>
               <h1 class="font-bold">
-                {{ user?.user_metadata.user_name }}
+                {{ currentUser?.username }}
               </h1>
             </div>
           </div>
@@ -110,6 +108,13 @@ const colorMode = useColorMode();
 const target = ref(null);
 let isDropdown = ref(false);
 const ignoreEl = ref(null);
+
+const props = defineProps({
+  currentUser: {
+    type: Object,
+    required: true,
+  },
+});
 
 onClickOutside(
   target,

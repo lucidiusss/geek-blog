@@ -33,7 +33,7 @@
         Войти
       </button>
       <div v-else>
-        <UIProfileUser ref="ignoreEl" />
+        <UIProfileUser :currentUser="props.currentUser" ref="ignoreEl" />
       </div>
     </div>
   </div>
@@ -51,4 +51,11 @@
 const authModal = useAuthModal();
 const postModal = usePostModal();
 const user = useSupabaseUser();
+
+const props = defineProps({
+  currentUser: {
+    type: Object,
+    required: true,
+  },
+});
 </script>

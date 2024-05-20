@@ -18,7 +18,7 @@
         class="col-span-12 xl:col-span-3 md:col-span-2 flex items-center w-full ml-14"
       >
         <div class="sticky top-0">
-          <UIProfile />
+          <UIProfile :currentUser="currentUser" />
         </div>
       </div>
     </div>
@@ -46,4 +46,38 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { RealtimeChannel } from "@supabase/supabase-js";
+
+const user = useSupabaseUser();
+const userStore = useUserStore();
+const client = useSupabaseClient();
+const currentUser = ref({});
+
+let realtimeChannel = RealtimeChannel;
+
+onMounted(() => {
+  nextTick(async () => {
+    try {
+      await userStore.getAuthenticatedUser(user.value.id);
+      currentUser.value = userStore.currentUser;
+    } catch (err) {
+      console.log(err);
+    }
+  });
+});
+
+watchEffect(() => {
+  realtimeChannel = client
+    .channel("profile-updated")
+    .on(
+      "postgres_changes",
+      { event: "UPDATE", schema: "public", table: "User" },
+      (payload) => {
+        currentUser.value = payload.new;
+      }
+    );
+
+  realtimeChannel.subscribe();
+});
+</script>

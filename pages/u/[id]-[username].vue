@@ -8,13 +8,25 @@
     <div
       class="w-full relative h-[45%] dark:bg-[#353436] bg-[#e5e5e5] rounded-t-xl"
     >
+      <NuxtImg
+        v-if="thisUser?.bannerImage"
+        :src="thisUser?.bannerImage"
+        class="w-full z-0 h-full rounded-t-xl object-cover"
+      />
       <button
-        v-if="thisUser?.id === user?.id"
-        class="absolute flex flex-row gap-1 items-center font-medium top-1/2 text-[13px] leading-[13px] rounded-md p-2 -translate-y-1/2 left-1/2 -translate-x-1/2 text-white bg-black/30 hover:bg-black/50"
+        v-if="thisUser?.id === user?.id && !thisUser?.bannerImage"
+        class="absolute flex flex-row gap-1 z-10 items-center font-medium top-1/2 text-[13px] leading-[13px] rounded-md p-1 -translate-y-1/2 left-1/2 -translate-x-1/2 text-white bg-black/30 hover:bg-black/50"
       >
         <Icon name="gravity-ui:picture" size="20" />
         Добавить обложку
+        <input
+          type="file"
+          accept="image/*"
+          @change="updateBanner($event)"
+          class="absolute cursor-pointer w-full h-full opacity-0"
+        />
       </button>
+      <UIProfileModalBannerModal v-if="thisUser?.id === user?.id" />
     </div>
     <div class="p-5">
       <div
@@ -25,18 +37,33 @@
         >
           <div v-if="thisUser?.id === user?.id">
             <button
-              class="hover:bg-black/30 opacity-0 absolute hover:opacity-100 z-10 rounded-full w-full h-full dark:text-[#c9cccf] text-black"
+              class="hover:bg-black/30 dark:hover:bg-black/50 opacity-0 absolute hover:opacity-100 z-10 rounded-full w-full h-full dark:text-[#c9cccf] text-black"
             >
+              <Icon
+                name="gravity-ui:picture"
+                size="20"
+                class="absolute w-14 h-14 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[#c9cccf]"
+              />
               <input
-                class="absolute"
+                class="w-full h-full opacity-0 cursor-pointer"
                 type="file"
-                id="single"
                 accept="image/*"
-                @change="handleFileInputChange($event)"
+                @change="updateAvatar($event)"
               />
             </button>
           </div>
+          <div
+            class="w-full h-full absolute rounded-full bg-[#f1f1f1] dark:bg-[#353436]"
+          >
+            <Icon
+              v-if="isAvatarLoading"
+              name="svg-spinners:pulse"
+              size="35"
+              class="w-full h-full rounded-full"
+            />
+          </div>
           <NuxtImg
+            v-if="!isAvatarLoading"
             v-motion-fade
             class="w-full h-full rounded-full"
             :src="thisUser?.profileImage"
@@ -78,10 +105,14 @@
 
 <script setup>
 import { RealtimeChannel } from "@supabase/supabase-js";
+
 const { username } = useRoute().params;
 const { id } = useRoute().params;
+
 let isLoading = ref(true);
 let realtimeChannel = RealtimeChannel;
+let isAvatarLoading = ref(false);
+let isBannerLoading = ref(false);
 let thisUser = ref();
 
 const imageUrl = ref(null);
@@ -113,6 +144,9 @@ watchEffect(() => {
         if (payload.new.username === username) {
           await userStore.getUserById(id);
           thisUser.value = userStore.fetchedUser;
+          payload.new = userStore.currentUser;
+
+          isAvatarLoading.value = false;
         }
       }
     );
@@ -120,14 +154,15 @@ watchEffect(() => {
   realtimeChannel.subscribe();
 });
 
-const handleFileInputChange = async (event) => {
+const updateAvatar = async (event) => {
+  isAvatarLoading.value = true;
   const file = event.target.files[0];
   if (!file) return;
   try {
     const fileExt = file.name.split(".").pop();
     const fileName = `${Math.random()}.${fileExt}`;
 
-    const { data, error } = await client.storage
+    await client.storage
       .from("avatars")
       .upload(`${id}${username}/${fileName}`, file);
 
@@ -135,10 +170,41 @@ const handleFileInputChange = async (event) => {
       .from("avatars")
       .getPublicUrl(`${id}${username}/${fileName}`);
 
-    const { data: updateLink } = await client
+    await client
       .from("User")
       .update({
         profileImage: publicUrl.publicUrl,
+      })
+      .eq("id", user.value.id);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    file.value = null;
+  }
+
+  imageUrl.value = URL.createObjectURL(file);
+};
+
+const updateBanner = async (event) => {
+  isBannerLoading.value = true;
+  const file = event.target.files[0];
+  if (!file) return;
+  try {
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Math.random()}.${fileExt}`;
+
+    await client.storage
+      .from("banners")
+      .upload(`${id}${username}/${fileName}`, file);
+
+    const { data: publicUrl } = client.storage
+      .from("banners")
+      .getPublicUrl(`${id}${username}/${fileName}`);
+
+    await client
+      .from("User")
+      .update({
+        bannerImage: publicUrl.publicUrl,
       })
       .eq("id", user.value.id);
   } catch (err) {
@@ -162,4 +228,6 @@ const createdAt = computed(() => {
     options
   );
 });
+
+console.log(thisUser?.bannerImage);
 </script>
