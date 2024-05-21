@@ -15,6 +15,7 @@
 <script setup>
 const router = useRouter();
 const user = useSupabaseUser();
+const userStore = useUserStore();
 const client = useSupabaseClient();
 
 const signIn = async () => {

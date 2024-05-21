@@ -176,6 +176,7 @@
 <script setup>
 const authModal = useAuthModal();
 const client = useSupabaseClient();
+const user = useSupabaseUser();
 const target = ref(null);
 const input = ref(null);
 const userStore = useUserStore();
@@ -197,6 +198,8 @@ const signInWithEmail = async () => {
     userStore.user_name = "";
     authModal.isOpen = false;
     authModal.isSigningIn = false;
+    navigateTo("/");
+    await userStore.getAuthenticatedUser(user.value.id);
   }
 };
 
@@ -213,6 +216,7 @@ const signInWithGithub = async () => {
     userStore.isLoading = false;
     authModal.isOpen = false;
     authModal.isSigningIn = false;
+    navigateTo("/");
   }
 };
 

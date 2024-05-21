@@ -1,18 +1,11 @@
 <template>
   <NuxtLayout>
-    <NuxtPage />
+    <NuxtPage :keepalive="true" />
   </NuxtLayout>
 </template>
 
 <script setup>
 const userStore = useUserStore();
+const client = useSupabaseClient();
 const user = useSupabaseUser();
-
-/* onMounted(() => {
-  nextTick(async () => {
-    if (user.value) {
-      await userStore.getUserByUuid(user.value.id);
-    }
-  });
-}); */
 </script>

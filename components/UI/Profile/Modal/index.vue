@@ -127,11 +127,12 @@ onClickOutside(
 const signOut = async () => {
   userStore.isLoading = true;
   try {
-    await client.auth.signOut();
+    await client.auth.signOut({});
   } catch (err) {
     console.log(err);
   } finally {
     userStore.isLoading = false;
+    navigateTo("/");
   }
 };
 </script>

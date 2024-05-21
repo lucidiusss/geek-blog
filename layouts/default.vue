@@ -56,15 +56,15 @@ const currentUser = ref({});
 
 let realtimeChannel = RealtimeChannel;
 
-onMounted(() => {
+onMounted(async () => {
   nextTick(async () => {
-    try {
-      await userStore.getAuthenticatedUser(user.value.id);
-      currentUser.value = userStore.currentUser;
-    } catch (err) {
-      console.log(err);
-    }
+    await userStore.getAuthenticatedUser(user.value.id);
+    currentUser.value = userStore.currentUser;
   });
+});
+
+watchEffect(() => {
+  currentUser.value = userStore.currentUser;
 });
 
 watchEffect(() => {
@@ -79,5 +79,9 @@ watchEffect(() => {
     );
 
   realtimeChannel.subscribe();
+});
+
+onUnmounted(() => {
+  realtimeChannel.unsubscribe();
 });
 </script>
