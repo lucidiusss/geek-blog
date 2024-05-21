@@ -22,15 +22,15 @@
           <NuxtImg
             class="w-9 h-9 rounded-full"
             :src="
-              user?.user_metadata.avatar_url
-                ? user?.user_metadata.avatar_url
-                : `https://ui-avatars.com/api/?name=${user.user_metadata.user_name}`
+              props.currentUser.profileImage
+                ? `https://wsnrscwmvaliilxyaimk.supabase.co/storage/v1/object/public/avatars/${props.currentUser.profileImage}`
+                : `https://ui-avatars.com/api/?name=${props.currentUser.username}`
             "
           />
         </div>
         <div class="flex items-start flex-col">
           <p class="font-bold text-[15px] dark:text-[#c9cccf] text-black">
-            {{ user?.user_metadata.user_name }}
+            {{ props.currentUser.username }}
           </p>
           <button class="flex items-center hover:opacity-70">
             <p class="text-black dark:text-[#c9cccf] font-medium text-[13px]">
@@ -69,6 +69,14 @@
 const user = useSupabaseUser();
 const modal = ref(null);
 const postModal = usePostModal();
+const userStore = useUserStore();
+
+const props = defineProps({
+  currentUser: {
+    type: Object,
+    required: true,
+  },
+});
 
 onClickOutside(modal, () => {
   postModal.isFullscreen = false;
@@ -81,11 +89,11 @@ const createPost = async () => {
       method: "POST",
       body: {
         userId: user.value.id,
-        username: user.value.user_metadata.user_name,
+        username: props.currentUser.username,
         image: `${
-          user.value.user_metadata.avatar_url
-            ? user.value.user_metadata.avatar_url
-            : `https://ui-avatars.com/api/?name=${user.value.user_metadata.user_name}`
+          props.currentUser.profileImage
+            ? props.currentUser.profileImage
+            : `https://ui-avatars.com/api/?name=${props.currentUser.username}`
         }`,
         content: postModal.content,
         picture: "http://placekitten.com/200/200",

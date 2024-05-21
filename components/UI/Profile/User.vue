@@ -9,9 +9,9 @@
         v-motion-fade
         class="w-9 h-9 rounded-full custom-transition"
         :src="
-          currentUser?.profileImage
-            ? currentUser?.profileImage
-            : `https://ui-avatars.com/api/?name=${currentUser?.username}`
+          props.currentUser.profileImage
+            ? `https://wsnrscwmvaliilxyaimk.supabase.co/storage/v1/object/public/avatars/${props.currentUser.profileImage}`
+            : `https://ui-avatars.com/api/?name=${props.currentUser.username}`
         "
       />
       <Icon class="dark:text-[#c9cccf]" size="15" name="lucide:chevron-down" />

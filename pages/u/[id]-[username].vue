@@ -8,25 +8,43 @@
     <div
       class="w-full relative h-[45%] dark:bg-[#353436] bg-[#e5e5e5] rounded-t-xl"
     >
-      <NuxtImg
-        v-if="thisUser?.bannerImage"
-        :src="thisUser?.bannerImage"
-        class="w-full z-0 h-full rounded-t-xl object-cover"
-      />
+      <div
+        class="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
+        v-if="isBannerLoading"
+      >
+        <Icon name="svg-spinners:3-dots-fade" size="35" />
+      </div>
+      <ClientOnly>
+        <NuxtImg
+          loading="lazy"
+          v-if="thisUser.bannerImage !== null && !isBannerLoading"
+          v-show="!isBannerLoading"
+          :src="`https://wsnrscwmvaliilxyaimk.supabase.co/storage/v1/object/public/banners/${thisUser.bannerImage}`"
+          class="w-full z-0 h-full rounded-t-xl object-cover"
+        />
+      </ClientOnly>
       <button
-        v-if="thisUser?.id === user?.id && !thisUser?.bannerImage"
-        class="absolute flex flex-row gap-1 z-10 items-center font-medium top-1/2 text-[13px] leading-[13px] rounded-md p-1 -translate-y-1/2 left-1/2 -translate-x-1/2 text-white bg-black/30 hover:bg-black/50"
+        v-if="
+          thisUser?.id === user?.id &&
+          thisUser.bannerImage === null &&
+          !isBannerLoading
+        "
+        class="absolute cursor-pointer flex flex-row gap-1 z-30 items-center font-medium top-1/2 text-[13px] leading-[13px] rounded-md p-1 -translate-y-1/2 left-1/2 -translate-x-1/2 text-white bg-black/30 hover:bg-black/50"
       >
         <Icon name="gravity-ui:picture" size="20" />
         Добавить обложку
         <input
           type="file"
           accept="image/*"
-          @change="updateBanner($event)"
+          @change="uploadBanner($event)"
           class="absolute cursor-pointer w-full h-full opacity-0"
         />
       </button>
-      <UIProfileModalBannerModal v-if="thisUser?.id === user?.id" />
+      <UIProfileModalBannerModal
+        @update-banner="updateBanner($event)"
+        :thisUser="thisUser"
+        v-if="thisUser?.id === user?.id && thisUser?.bannerImage"
+      />
     </div>
     <div class="p-5">
       <div
@@ -52,22 +70,27 @@
               />
             </button>
           </div>
-          <div
-            class="w-full h-full absolute rounded-full bg-[#f1f1f1] dark:bg-[#353436]"
-          >
-            <Icon
-              v-if="isAvatarLoading"
-              name="svg-spinners:pulse"
-              size="35"
+
+          <ClientOnly>
+            <div
+              class="w-full h-full absolute rounded-full bg-[#f1f1f1] dark:bg-[#353436]"
+            >
+              <Icon
+                v-if="isAvatarLoading"
+                name="svg-spinners:pulse"
+                size="35"
+                class="w-full h-full rounded-full"
+              />
+            </div>
+            <NuxtImg
+              preload
+              v-if="!isAvatarLoading"
+              loading="lazy"
+              v-motion-fade
               class="w-full h-full rounded-full"
+              :src="`https://wsnrscwmvaliilxyaimk.supabase.co/storage/v1/object/public/avatars/${thisUser.profileImage}`"
             />
-          </div>
-          <NuxtImg
-            v-if="!isAvatarLoading"
-            v-motion-fade
-            class="w-full h-full rounded-full"
-            :src="thisUser?.profileImage"
-          />
+          </ClientOnly>
         </div>
 
         <NuxtLink
@@ -141,12 +164,12 @@ watchEffect(() => {
       "postgres_changes",
       { event: "UPDATE", schema: "public", table: "User" },
       async (payload) => {
-        if (payload.new.username === username) {
+        if (payload.new.id === thisUser.value.id) {
           await userStore.getUserById(id);
           thisUser.value = userStore.fetchedUser;
           payload.new = userStore.currentUser;
-
           isAvatarLoading.value = false;
+          isBannerLoading.value = false;
         }
       }
     );
@@ -155,6 +178,7 @@ watchEffect(() => {
 });
 
 const updateAvatar = async (event) => {
+  thisUser.value.profileImage = null;
   isAvatarLoading.value = true;
   const file = event.target.files[0];
   if (!file) return;
@@ -164,16 +188,40 @@ const updateAvatar = async (event) => {
 
     await client.storage
       .from("avatars")
-      .upload(`${id}${username}/${fileName}`, file);
-
-    const { data: publicUrl } = client.storage
-      .from("avatars")
-      .getPublicUrl(`${id}${username}/${fileName}`);
+      .upload(`${id}/${username}/${fileName}`, file);
 
     await client
       .from("User")
       .update({
-        profileImage: publicUrl.publicUrl,
+        profileImage: `${id}/${username}/${fileName}`,
+      })
+      .eq("id", user.value.id);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    file.value = null;
+    isAvatarLoading.value = false;
+  }
+
+  imageUrl.value = URL.createObjectURL(file);
+};
+
+const uploadBanner = async (event) => {
+  isBannerLoading.value = true;
+  const file = event.target.files[0];
+  if (!file) return;
+  try {
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Math.random()}.${fileExt}`;
+
+    await client.storage
+      .from("banners")
+      .upload(`${id}/${username}/${fileName}`, file);
+
+    await client
+      .from("User")
+      .update({
+        bannerImage: `${id}/${username}/${fileName}`,
       })
       .eq("id", user.value.id);
   } catch (err) {
@@ -186,6 +234,7 @@ const updateAvatar = async (event) => {
 };
 
 const updateBanner = async (event) => {
+  thisUser.value.bannerImage = ".";
   isBannerLoading.value = true;
   const file = event.target.files[0];
   if (!file) return;
@@ -195,22 +244,18 @@ const updateBanner = async (event) => {
 
     await client.storage
       .from("banners")
-      .upload(`${id}${username}/${fileName}`, file);
-
-    const { data: publicUrl } = client.storage
-      .from("banners")
-      .getPublicUrl(`${id}${username}/${fileName}`);
+      .upload(`${id}/${username}/${fileName}`, file);
 
     await client
       .from("User")
       .update({
-        bannerImage: publicUrl.publicUrl,
+        bannerImage: `${id}/${username}/${fileName}`,
       })
       .eq("id", user.value.id);
   } catch (err) {
     console.log(err);
   } finally {
-    file.value = null;
+    isBannerLoading.value = false;
   }
 
   imageUrl.value = URL.createObjectURL(file);
@@ -228,6 +273,4 @@ const createdAt = computed(() => {
     options
   );
 });
-
-console.log(thisUser?.bannerImage);
 </script>

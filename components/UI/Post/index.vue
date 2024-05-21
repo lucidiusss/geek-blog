@@ -8,7 +8,7 @@
           v-motion-fade
           :src="
             post?.user?.profileImage
-              ? post?.user?.profileImage
+              ? `https://wsnrscwmvaliilxyaimk.supabase.co/storage/v1/object/public/avatars/${post?.user?.profileImage}`
               : `https://ui-avatars.com/api/?name=${post?.user?.username}`
           "
           class="w-9 h-9 rounded-full"

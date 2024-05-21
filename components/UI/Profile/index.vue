@@ -42,7 +42,10 @@
     <UIAuthBackground v-show="authModal.isOpen || postModal.isModalOpen" />
     <TransitionFade>
       <UIAuthModal v-if="authModal.isOpen" />
-      <UIPostModal v-if="postModal.isModalOpen && user" />
+      <UIPostModal
+        :currentUser="props.currentUser"
+        v-if="postModal.isModalOpen && user"
+      />
     </TransitionFade>
   </Teleport>
 </template>

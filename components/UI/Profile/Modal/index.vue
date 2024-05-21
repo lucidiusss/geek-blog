@@ -15,7 +15,7 @@
               class="w-9 h-9 rounded-full border dark:border-[#2f2f2f]"
               :src="
                 currentUser?.profileImage
-                  ? currentUser?.profileImage
+                  ? `https://wsnrscwmvaliilxyaimk.supabase.co/storage/v1/object/public/avatars/${currentUser?.profileImage}`
                   : `https://ui-avatars.com/api/?name=${currentUser?.username}`
               "
             />
