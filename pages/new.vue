@@ -96,4 +96,8 @@ watchEffect(() => {
 onUnmounted(() => {
   client.removeChannel(realtimeChannel);
 });
+
+definePageMeta({
+  keepalive: true,
+});
 </script>

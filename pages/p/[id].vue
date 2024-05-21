@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UIPost :post="post" v-if="!isLoading" />
+    <UIPost content="full" :post="post" v-if="!isLoading" />
     <UIPostSkeleton v-if="isLoading" />
   </div>
 </template>

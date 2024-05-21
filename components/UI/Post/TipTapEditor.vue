@@ -60,6 +60,7 @@
               class="text-black dark:text-[#c9cccf]"
             />
           </button>
+
           <!-- <button
             @click="setLink"
             :class="{ 'is-active': editor.isActive('link') }"
@@ -75,7 +76,7 @@
         </div>
       </TiptapBubbleMenu>
       <div
-        class="flex flex-row gap-1 items-center dark:bg-[#1f1f1f] p-2 rounded-xl border border-1 dark:border-[#2d2d2d] shadow-xl h-16 mb-14"
+        class="flex flex-row mx-auto gap-1 items-center dark:bg-[#1f1f1f] p-2 rounded-xl border border-1 dark:border-[#2d2d2d] shadow-xl h-16 mb-14 w-fit"
       >
         <div
           class="flex flex-row gap-1 pr-2 items-center border-r dark:border-r-[#2d2d2d]"
@@ -144,6 +145,78 @@
               class="text-black dark:text-[#c9cccf]"
             />
           </button>
+          <button
+            @click="editor.chain().focus().toggleBlockquote().run()"
+            :disabled="!editor.can().chain().focus().toggleBlockquote().run()"
+            :class="{ 'is-active': editor.isActive('blockquote') }"
+            class="bubble-btn"
+          >
+            <Icon
+              name="material-symbols:format-quote-rounded"
+              size="20"
+              class="text-black dark:text-[#c9cccf]"
+            />
+          </button>
+        </div>
+        <div class="flex flex-row gap-1 px-2 items-center">
+          <button
+            @click="editor.chain().focus().toggleBulletList().run()"
+            :disabled="!editor.can().chain().focus().toggleBulletList().run()"
+            :class="{ 'is-active': editor.isActive('bulletlist') }"
+            class="bubble-btn"
+          >
+            <Icon
+              name="material-symbols:format-list-bulleted-rounded"
+              size="20"
+              class="text-black dark:text-[#c9cccf]"
+            />
+          </button>
+          <button
+            @click="editor.chain().focus().toggleOrderedList().run()"
+            :disabled="!editor.can().chain().focus().toggleOrderedList().run()"
+            :class="{ 'is-active': editor.isActive('orderedlist') }"
+            class="bubble-btn"
+          >
+            <Icon
+              name="ci:list-ordered"
+              size="20"
+              class="text-black dark:text-[#c9cccf]"
+            />
+          </button>
+          <button
+            @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+            :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+            class="bubble-btn"
+          >
+            <Icon
+              name="lucide:heading"
+              size="20"
+              class="text-black dark:text-[#c9cccf]"
+            />
+          </button>
+          <button
+            @click="editor.chain().focus().setParagraph().run()"
+            :class="{ 'is-active': editor.isActive('paragraph') }"
+            class="bubble-btn"
+          >
+            <Icon
+              name="ph:text-align-left-light"
+              size="20"
+              class="text-black dark:text-[#c9cccf]"
+            />
+          </button>
+          <button
+            @click="editor.chain().focus().setHorizontalRule().run()"
+            :disabled="!editor.can().chain().focus().setHorizontalRule().run()"
+            :class="{ 'is-active': editor.isActive('horizontalrule') }"
+            class="bubble-btn"
+          >
+            <Icon
+              name="material-symbols:horizontal-rule"
+              size="20"
+              class="text-black dark:text-[#c9cccf]"
+            />
+          </button>
         </div>
       </div>
     </div>
@@ -156,6 +229,8 @@ import BubbleMenu from "@tiptap/extension-bubble-menu";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
 import CodeBlock from "@tiptap/extension-code-block";
+import Link from "@tiptap/extension-link";
+import Paragraph from "@tiptap/extension-link";
 
 const postModal = usePostModal();
 
@@ -183,7 +258,7 @@ const editor = useEditor({
     attributes: {
       class: ` ${
         postModal.isFullscreen ? "h-2/3 w-full p-4" : "p-2 max-h-[500px] w-full"
-      } bg-transparent prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl  overflow-y-auto max-w-none focus:outline-none dark:text-[#c9cccf] text-black`,
+      } bg-transparent prose-styles overflow-y-auto max-w-none focus:outline-none `,
     },
   },
 });

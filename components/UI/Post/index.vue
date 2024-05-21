@@ -20,21 +20,19 @@
         >
         <div>
           <NuxtLink
-            v-if="useRoute().path == `/new`"
             v-motion-fade
-            :to="`/p/${post.id}`"
+            :to="useRoute().path !== `/p/${post.id}` ? `/p/${post.id}` : ``"
           >
             <span
-              class="text-[12px] font-medium dark:text-[#969c9d] dark:hover:text-[#767b7b]"
+              :class="
+                useRoute().path !== `/p/${post.id}`
+                  ? 'dark:hover:text-[#767b7b]'
+                  : ''
+              "
+              class="text-[12px] font-medium dark:text-[#969c9d]"
               >{{ timeAgo }}</span
             >
           </NuxtLink>
-          <span
-            v-motion-fade
-            v-if="useRoute().path == `/p/${post.id}`"
-            class="text-[12px] font-medium dark:text-[#969c9d]"
-            >{{ timeAgo }}</span
-          >
         </div>
       </div>
 
@@ -59,7 +57,14 @@
       :post="props.post"
       v-if="isDropdown"
     />
-    <div v-motion-fade v-html="post.content" class="my-8 prose-styles"></div>
+
+    <NuxtLink :to="useRoute().path !== `/p/${post.id}` ? `/p/${post.id}` : ``">
+      <div
+        v-motion-fade
+        v-html="content === 'full' ? post.content : filteredContent"
+        class="my-8 prose-styles"
+      ></div>
+    </NuxtLink>
   </div>
 </template>
 
@@ -75,6 +80,9 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  content: {
+    type: String,
+  },
 });
 
 const timeAgo = useTimeAgo(props.post.createdAt);
@@ -86,4 +94,12 @@ onClickOutside(
   },
   { ignore: [ignoreEl] }
 );
+
+const filteredContent = computed(() => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(props.post.content, "text/html");
+  const h1 = doc.querySelector("h1");
+  const p = doc.querySelector("p");
+  return `${h1 ? h1.outerHTML : ""}${p ? p.outerHTML : ""}`;
+});
 </script>

@@ -24,15 +24,12 @@ html {
     prose-sm 
     sm:prose
     lg:prose-lg
-    xl:prose-2xl
+    xl:prose-xl
     prose-headings:text-black
-    dark:prose-headings:text-[#c9cccf] 
-    xl:prose-h1:leading-[30px]
-    xl:prose-h1:text-[22px] 
-    xl:prose-h1:font-medium 
-    xl:prose-h2:leading-[28px]
-    xl:prose-h2:text-[20px] 
-    xl:prose-h2:font-medium
+    dark:prose-headings:text-[#c9cccf]
+    xl:prose-headings:leading-[30px]
+    xl:prose-headings:text-[22px]
+    xl:prose-headings:font-medium  
     xl:prose-p:text-black 
     xl:dark:prose-p:text-[#c9cccf]
     xl:prose-p:text-[17px]
@@ -45,7 +42,12 @@ html {
     xl:prose-strong:font-normal
     xl:prose-strong:leading-[26px]
     xl:prose-strong:text-black
-    xl:dark:prose-strong:text-[#c9cccf];
+    xl:dark:prose-strong:text-[#c9cccf]
+    xl:prose-li:marker:text-black
+    xl:dark:prose-li:marker:text-[#c9cccf]
+    xl:prose-blockquote:border-l-[#6991e2]
+    xl:prose-hr:dark:border-[#c9cccf]
+    xl:prose-hr:border-black;
   }
   .custom-transition {
     @apply transition ease-linear duration-100;
@@ -74,4 +76,17 @@ h1 {
   float: left;
   height: 0;
   pointer-events: none;
+}
+
+blockquote p {
+  quotes: "«" "»" "" "";
+  font-style: normal;
+}
+
+blockquote {
+  @apply border-l  pl-10 dark:border-l-[#6991e2] text-black dark:text-[#c9cccf];
+}
+
+strong {
+  @apply text-black dark:text-[#c9cccf];
 }

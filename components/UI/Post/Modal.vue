@@ -16,7 +16,7 @@
         @click="postModal.isModalOpen = false"
       />
     </div>
-    <div class="w-full h-full p-10">
+    <div class="w-full h-full p-10 flex flex-col">
       <div class="flex flex-row gap-2 items-center">
         <div>
           <NuxtImg
@@ -43,16 +43,18 @@
           </button>
         </div>
       </div>
-
-      <div class="">
-        <div
-          :class="
-            postModal.isFullscreen ? ' w-1/2 h-[90%] mx-auto' : 'w-full h-1/3'
-          "
-        >
-          <UIPostTipTapEditor />
-        </div>
-        <div class="w-full">
+      <div
+        class="flex flex-col justify-between"
+        :class="
+          postModal.isFullscreen
+            ? ' w-1/2 h-[90%] mx-auto'
+            : 'w-3/4 h-[90%] mx-auto'
+        "
+      >
+        <UIPostTipTapEditor />
+      </div>
+      <div :class="postModal.isFullscreen ? ' w-1/2 mx-auto' : 'w-3/4 mx-auto'">
+        <div class="w-fit">
           <button
             class="px-4 py-3 custom-transition leading-[17px] text-[17px] font-medium rounded-xl text-white bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5]"
             @click="createPost()"

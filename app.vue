@@ -1,11 +1,7 @@
 <template>
   <NuxtLayout>
-    <NuxtPage :keepalive="true" />
+    <NuxtPage />
   </NuxtLayout>
 </template>
 
-<script setup>
-const userStore = useUserStore();
-const client = useSupabaseClient();
-const user = useSupabaseUser();
-</script>
+<script setup></script>
