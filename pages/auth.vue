@@ -25,8 +25,6 @@ const signIn = async () => {
     });
   } catch (err) {
     console.log(err);
-  } finally {
-    navigateTo("/");
   }
 };
 </script>

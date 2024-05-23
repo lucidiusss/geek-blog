@@ -143,10 +143,11 @@
         @keyup.enter="signInWithEmail()"
       />
       <button
-        class="w-2/4 font-medium text-[17px] p-3 rounded-xl custom-transition dark:text-[#c9cccf] dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5] bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] text-white"
+        class="w-2/4 font-medium text-[17px] h-14 p-3 rounded-xl custom-transition dark:text-[#c9cccf] dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5] bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] text-white"
         @click="signInWithEmail()"
       >
-        Войти
+        <Icon v-if="isLoading" name="eos-icons:three-dots-loading" size="35" />
+        <h1 v-else>Войти</h1>
       </button>
     </div>
 
@@ -179,27 +180,92 @@ const client = useSupabaseClient();
 const user = useSupabaseUser();
 const target = ref(null);
 const input = ref(null);
+let isLoading = ref(false);
 const userStore = useUserStore();
 useFocus(input);
+const toast = useToast();
+
+const showToast = (message, errorType, id, icon) => {
+  toast.add({
+    id: id,
+    title: errorType,
+    description: message,
+    timeout: 5000,
+    icon: icon,
+    ui: {
+      progress: {
+        base: "absolute bottom-0 end-0 start-0 h-1",
+        background: `${
+          errorType === "Упс!" || errorType === "Что-то пошло не так"
+            ? `bg-rose-600 dark:bg-rose-500`
+            : `bg-emerald-600 dark:bg-emerald-500`
+        }`,
+      },
+      icon: {
+        color: `${
+          errorType === "Упс!" || errorType === "Что-то пошло не так"
+            ? `bg-rose-600 dark:bg-rose-500`
+            : `bg-emerald-600 dark:bg-emerald-500`
+        }`,
+      },
+    },
+  });
+};
 
 const signInWithEmail = async () => {
-  userStore.isLoading = true;
+  if (userStore.password === "" && userStore.email === "")
+    throw showToast(
+      "Вы забыли ввести почту и пароль",
+      "Упс!",
+      "invalid_login_credentials",
+      "i-heroicons-x-mark-20-solid"
+    );
+  if (userStore.email === "") {
+    throw showToast(
+      "Вы не ввели почту",
+      "Упс!",
+      "invalid_login_credentials",
+      "i-heroicons-x-mark-20-solid"
+    );
+  }
+
+  if (userStore.password === "")
+    throw showToast(
+      "Вы не ввели пароль",
+      "Упс!",
+      "invalid_login_credentials",
+      "i-heroicons-x-mark-20-solid"
+    );
+
   try {
+    isLoading.value = true;
+
     const { data, error } = await client.auth.signInWithPassword({
       email: userStore.email,
       password: userStore.password,
     });
-  } catch (err) {
-    console.log(err);
+    if (error && error.message === "Invalid login credentials")
+      throw showToast(
+        "Неверный логин или пароль",
+        "Что-то пошло не так",
+        "invalid_login_credentials",
+        "i-heroicons-x-mark-20-solid"
+      );
+
+    if (!error) {
+      await userStore.getAuthenticatedUser(data.user.id);
+    }
+    if (data) {
+      userStore.email = "";
+      userStore.password = "";
+      userStore.user_name = "";
+      authModal.isOpen = false;
+      authModal.isSigningIn = false;
+    }
+  } catch (error) {
+    console.log(error);
   } finally {
-    userStore.isLoading = false;
-    userStore.email = "";
-    userStore.password = "";
-    userStore.user_name = "";
-    authModal.isOpen = false;
-    authModal.isSigningIn = false;
-    navigateTo("/");
-    await userStore.getAuthenticatedUser(user.value.id);
+    isLoading.value = false;
   }
 };
 
@@ -216,7 +282,6 @@ const signInWithGithub = async () => {
     userStore.isLoading = false;
     authModal.isOpen = false;
     authModal.isSigningIn = false;
-    navigateTo("/");
   }
 };
 

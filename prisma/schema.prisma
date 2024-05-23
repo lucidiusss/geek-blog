@@ -19,10 +19,16 @@ model Post {
   username   String
   image      String 
   content    String
-  picture    String
+  picture    String?
+  categoryId Int? 
   createdAt  DateTime  @default(now())
 
+
+  category Category? @relation(fields: [categoryId], references:[id])
   user User @relation(fields: [userId], references: [id])
+
+  comments Comment[]
+  likes Like[]
 }
 
 model Category {
@@ -32,6 +38,8 @@ model Category {
   name String
   description String
   createdAt DateTime @default(now())
+
+  post Post[]
 }
 
 
@@ -44,8 +52,52 @@ model User {
   name String?
   username String
   description String?
+  bookmarks Json?
 
   createdAt DateTime @default(now())
 
+  followedBy Follows[] @relation("followedTo")
+  followedTo  Follows[] @relation("followedBy")
+  comments Comment[]
   post Post[]
+  likes Like[]
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+  userId String @db.Uuid
+  text String 
+  postId Int
+  createdAt DateTime @default(now())
+
+  replyToId String? @db.Uuid
+
+  likes Like[]
+
+  post Post @relation(fields:[postId], references:[id])
+  user User @relation(fields: [userId], references: [id])
+}
+
+
+model Like {
+  id Int @id @default(autoincrement())
+  userId  String @db.Uuid
+  postId Int
+  commentId Int?
+  createdAt DateTime @default(now())
+
+
+  post Post @relation(fields:[postId], references:[id])
+  comment Comment? @relation(fields:[commentId], references:[id])
+  user User @relation(fields: [userId], references: [id])
+}
+
+
+model Follows {
+  followedBy   User @relation("followedBy", fields: [followedById], references: [id])
+  followedById String @db.Uuid
+  followedTo  User @relation("followedTo", fields: [followedToId], references: [id])
+  followedToId  String @db.Uuid
+
+  @@id([followedToId, followedById])
 }

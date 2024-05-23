@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative dark:bg-[#232324] bg-[#ffffff] min-h-[350px] overflow-hidden rounded-xl p-6"
+    class="relative dark:bg-[#232324] bg-[#ffffff] overflow-hidden rounded-xl p-6"
   >
     <div class="flex flex-row items-center justify-between gap-2">
       <div class="flex flex-row items-center gap-2">
@@ -38,7 +38,7 @@
 
       <div class="flex flex-row items-center gap-4">
         <button
-          v-if="post.userId !== user?.id"
+          @click="followUser(post.userId)"
           class="py-2 px-3 rounded-lg bg-[#f0f0f0] hover:bg-[#e6e6e6] active:bg-[#dbdbdb] dark:active:bg-[#2c2c2c] dark:bg-[#333333] dark:hover:bg-[#2c2c2c] font-medium text-[13px]"
         >
           Подписаться
@@ -84,6 +84,22 @@ const props = defineProps({
     type: String,
   },
 });
+
+const followUser = async (userId) => {
+  if (!user.value) {
+    return;
+  }
+  const { error } = await useFetch(`/api/follow-user`, {
+    method: "POST",
+    body: {
+      followedToId: userId,
+      followedById: user.value.id,
+    },
+  });
+  if (error) {
+    return;
+  }
+};
 
 const timeAgo = useTimeAgo(props.post.createdAt);
 

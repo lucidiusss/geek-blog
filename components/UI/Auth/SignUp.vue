@@ -132,13 +132,14 @@
         type="password"
         v-model="userStore.password"
         placeholder="Пароль"
-        @keyup.enter="signInWithEmail()"
+        @keyup.enter="signUpWithEmail()"
       />
       <button
-        class="w-2/4 font-medium text-[17px] p-3 rounded-xl custom-transition dark:text-[#c9cccf] dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5] bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] text-white"
+        class="w-2/4 font-medium text-[17px] h-14 p-3 rounded-xl custom-transition dark:text-[#c9cccf] dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5] bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] text-white"
         @click="signUpWithEmail()"
       >
-        Зарегистрироваться
+        <Icon v-if="isLoading" name="eos-icons:three-dots-loading" size="35" />
+        <h1 v-else>Зарегистрироваться</h1>
       </button>
     </div>
 
@@ -170,13 +171,79 @@ const userStore = useUserStore();
 const client = useSupabaseClient();
 const authModal = useAuthModal();
 const target = ref(null);
+let isLoading = ref(false);
 const input = ref(null);
 useFocus(input);
 
+const toast = useToast();
+
+const showToast = (message, errorType, id, icon) => {
+  toast.add({
+    id: id,
+    title: errorType,
+    description: message,
+    timeout: 5000,
+    icon: icon,
+    ui: {
+      progress: {
+        base: "absolute bottom-0 end-0 start-0 h-1",
+        background: `${
+          errorType === "Что-то пошло не так" || errorType === "Упс!"
+            ? `bg-rose-600 dark:bg-rose-500`
+            : `bg-emerald-600 dark:bg-emerald-500`
+        }`,
+      },
+      icon: {
+        color: `${
+          errorType === "Что-то пошло не так" || errorType === "Упс!"
+            ? `bg-rose-600 dark:bg-rose-500`
+            : `bg-emerald-600 dark:bg-emerald-500`
+        }`,
+      },
+    },
+  });
+};
+
 const signUpWithEmail = async () => {
-  userStore.isLoading = true;
+  if (
+    userStore.password === "" &&
+    userStore.email === "" &&
+    userStore.user_name === ""
+  )
+    throw showToast(
+      "Вы забыли ввести никнейм, почту и пароль",
+      "Упс!",
+      "invalid_login_credentials",
+      "i-heroicons-x-mark-20-solid"
+    );
+  if (userStore.user_name === "") {
+    throw showToast(
+      "Вы не ввели никнейм",
+      "Упс!",
+      "invalid_login_credentials",
+      "i-heroicons-x-mark-20-solid"
+    );
+  }
+  if (userStore.email === "") {
+    throw showToast(
+      "Вы не ввели почту",
+      "Упс!",
+      "invalid_login_credentials",
+      "i-heroicons-x-mark-20-solid"
+    );
+  }
+
+  if (userStore.password === "")
+    throw showToast(
+      "Вы не ввели пароль",
+      "Упс!",
+      "invalid_login_credentials",
+      "i-heroicons-x-mark-20-solid"
+    );
   try {
-    await client.auth.signUp({
+    isLoading.value = true;
+
+    const { data, error } = await client.auth.signUp({
       email: userStore.email,
       password: userStore.password,
       options: {
@@ -185,13 +252,49 @@ const signUpWithEmail = async () => {
         },
       },
     });
+    if (error && error.message === "Password should be at least 6 characters.")
+      throw showToast(
+        "Пароль должен содержать не менее 6 символов",
+        "Что-то пошло не так",
+        "password_should_be_at_least_6_characters",
+        "i-heroicons-x-mark-20-solid"
+      );
+    if (error && error.message === "Email rate limit exceeded")
+      throw showToast(
+        "Достигнут лимит на регистрацию через почту. Попробуйте позже",
+        "Что-то пошло не так",
+        "email_rate_limit_exceeded",
+        "i-heroicons-x-mark-20-solid"
+      );
+    if (
+      error &&
+      error.message === "Unable to validate email address: invalid format"
+    )
+      throw showToast(
+        "Некорректный формат почты",
+        "Что-то пошло не так",
+        "email_address_invalid_format",
+        "gravity-ui:triangle-exclamation"
+      );
+
+    if (data) {
+      userStore.email = "";
+      userStore.password = "";
+      userStore.user_name = "";
+      authModal.isOpen = false;
+      authModal.isSigningUp = false;
+      throw showToast(
+        "Проверьте свою почту для подтверждения регистрации",
+        "Успех!",
+        "success",
+        "i-heroicons-check-circle"
+      );
+    }
+    console.log(error);
   } catch (err) {
     console.log(err);
   } finally {
-    userStore.isLoading = false;
-    userStore.email = "";
-    userStore.password = "";
-    userStore.user_name = "";
+    isLoading.value = false;
   }
 };
 
