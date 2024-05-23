@@ -56,6 +56,7 @@
       <div :class="postModal.isFullscreen ? ' w-1/2 mx-auto' : 'w-3/4 mx-auto'">
         <div class="w-fit">
           <button
+            :disabled="isPosting"
             class="px-4 py-3 custom-transition leading-[17px] text-[17px] font-medium rounded-xl text-white bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5]"
             @click="createPost()"
           >
@@ -72,6 +73,7 @@ const user = useSupabaseUser();
 const modal = ref(null);
 const postModal = usePostModal();
 const userStore = useUserStore();
+let isPosting = ref(false);
 
 const props = defineProps({
   currentUser: {
@@ -86,6 +88,7 @@ onClickOutside(modal, () => {
 });
 
 const createPost = async () => {
+  isPosting.value = true;
   try {
     await $fetch("/api/create-post/", {
       method: "POST",
@@ -107,6 +110,7 @@ const createPost = async () => {
     postModal.isFullscreen = false;
     postModal.isModalOpen = false;
     postModal.content = "";
+    isPosting.value = false;
   }
 };
 </script>
