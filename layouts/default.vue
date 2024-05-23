@@ -72,7 +72,12 @@ watchEffect(() => {
     .channel("profile-updated")
     .on(
       "postgres_changes",
-      { event: "UPDATE", schema: "public", table: "User" },
+      {
+        event: "UPDATE",
+        schema: "public",
+        table: "User",
+        filter: `id=eq.${user.value.id}`,
+      },
       (payload) => {
         currentUser.value = payload.new;
       }
