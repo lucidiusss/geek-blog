@@ -7,7 +7,7 @@ export const useUserStore = defineStore("user", {
     topics: [],
     fetchedUser: {},
     currentUser: {},
-    isLoading: true,
+    isUserLoaded: false,
     user_name: "",
     email: "",
     password: "",
@@ -45,8 +45,17 @@ export const useUserStore = defineStore("user", {
       return res.data;
     },
     async getAuthenticatedUser(id) {
+      this.isUserLoaded = false;
       const res = await useFetch(`/api/get-user-by-uuid/${id}`);
       this.currentUser = res.data;
+      this.isUserLoaded = true;
+      return res.data;
+    },
+    async getFollowers(id) {
+      const res = await useFetch(`/api/get-followers/${id}`, {
+        method: "GET",
+      });
+      this.followerCount = res.data.length;
       return res.data;
     },
   },

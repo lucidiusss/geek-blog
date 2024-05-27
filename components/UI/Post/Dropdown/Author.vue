@@ -50,6 +50,8 @@ let isLoading = ref(false);
 let isDeleting = ref(false);
 const targetEl = ref(null);
 
+const userStore = useUserStore();
+
 const props = defineProps({
   post: {
     type: Object,
@@ -65,6 +67,12 @@ const deletePost = async () => {
   isDeleting.value = true;
   isLoading.value = true;
   try {
+    const index = userStore.posts.findIndex(
+      (post) => post.id === props.post.id
+    );
+    if (index !== -1) {
+      userStore.posts.splice(index, 1);
+    }
     await useFetch(`/api/delete-post/${props.post.id}`, {
       method: "DELETE",
     });

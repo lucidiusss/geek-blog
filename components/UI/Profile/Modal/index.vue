@@ -133,6 +133,7 @@ const signOut = async () => {
     console.log(err);
   } finally {
     userStore.isLoading = false;
+    user.value = null;
   }
 };
 </script>

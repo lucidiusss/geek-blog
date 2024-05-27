@@ -54,25 +54,46 @@ watch(
 );
 
 watchEffect(() => {
+  posts.value = userStore.posts;
+});
+
+/* watchEffect(() => {
   realtimeChannel = client
     .channel("post-insert")
     .on(
       "postgres_changes",
       { event: "INSERT", schema: "public", table: "Post" },
       async (payload) => {
-        isLoading.value = true;
-
+        // Проверьте, существует ли payload.new
         const post = await userStore.getSinglePost(payload.new.id);
         posts.value.unshift(post.value);
-
-        isLoading.value = false;
       }
     );
 
   realtimeChannel.subscribe();
-});
+}); */
 
-watchEffect(() => {
+/* watchEffect(() => {
+  realtimeChannel = client
+    .channel("follows-update")
+    .on(
+      "postgres_changes",
+      { event: "INSERT", schema: "public", table: "Follows" },
+      async (payload) => {
+        const postsToUpdate = await useFetch("/api/get-many-posts", {
+          method: "GET",
+          body: {
+            id: payload.new.followedToId,
+          },
+        });
+        console.log(postsToUpdate);
+      }
+    );
+
+  realtimeChannel.subscribe();
+}); */
+
+/* watchEffect(() => {
   realtimeChannel = client
     .channel("post-delete")
     .on(
@@ -91,13 +112,9 @@ watchEffect(() => {
     );
 
   realtimeChannel.subscribe();
-});
+}); */
 
-onUnmounted(() => {
+/* onUnmounted(() => {
   client.removeChannel(realtimeChannel);
-});
-
-definePageMeta({
-  keepalive: true,
-});
+}); */
 </script>

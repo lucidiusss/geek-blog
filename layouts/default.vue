@@ -57,10 +57,12 @@ const currentUser = ref({});
 let realtimeChannel = RealtimeChannel;
 
 onMounted(async () => {
-  nextTick(async () => {
-    await userStore.getAuthenticatedUser(user.value.id);
-    currentUser.value = userStore.currentUser;
-  });
+  if (user.value) {
+    nextTick(async () => {
+      await userStore.getAuthenticatedUser(user.value.id);
+      currentUser.value = userStore.currentUser;
+    });
+  }
 });
 
 watchEffect(() => {
@@ -68,9 +70,8 @@ watchEffect(() => {
 });
 
 watchEffect(() => {
-  realtimeChannel = client
-    .channel("profile-updated")
-    .on(
+  if (user.value) {
+    realtimeChannel = client.channel("profile-updated").on(
       "postgres_changes",
       {
         event: "UPDATE",
@@ -82,11 +83,10 @@ watchEffect(() => {
         currentUser.value = payload.new;
       }
     );
-
-  realtimeChannel.subscribe();
+    realtimeChannel.subscribe();
+  }
 });
-
 onUnmounted(() => {
-  realtimeChannel.unsubscribe();
+  client.removeChannel(realtimeChannel);
 });
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative dark:bg-[#232324] bg-[#ffffff] overflow-hidden rounded-xl p-6"
+    class="relative dark:bg-[#232324] min-h-[250px] bg-[#ffffff] overflow-hidden rounded-xl p-6"
   >
     <div class="flex flex-row items-center justify-between gap-2">
       <div class="flex flex-row items-center gap-2">
@@ -38,6 +38,7 @@
 
       <div class="flex flex-row items-center gap-4">
         <button
+          v-if="post?.user?.id !== user?.id && !isFollowed"
           @click="followUser(post.userId)"
           class="py-2 px-3 rounded-lg bg-[#f0f0f0] hover:bg-[#e6e6e6] active:bg-[#dbdbdb] dark:active:bg-[#2c2c2c] dark:bg-[#333333] dark:hover:bg-[#2c2c2c] font-medium text-[13px]"
         >
@@ -70,10 +71,11 @@
 
 <script setup>
 const user = useSupabaseUser();
-const client = useSupabaseClient();
 const target = ref(null);
 const ignoreEl = ref(null);
+const authModal = useAuthModal();
 let isDropdown = ref(false);
+let isFollowed = ref(false);
 
 const props = defineProps({
   post: {
@@ -85,10 +87,22 @@ const props = defineProps({
   },
 });
 
+onMounted(() => {
+  if (props.post?.user?.followedBy) {
+    props.post?.user?.followedBy.forEach((user) => {
+      if (user.id === user?.id) {
+        isFollowed.value = true;
+      }
+    });
+  }
+});
+
 const followUser = async (userId) => {
   if (!user.value) {
+    authModal.isOpen = true;
     return;
   }
+
   const { error } = await useFetch(`/api/follow-user`, {
     method: "POST",
     body: {
@@ -96,6 +110,12 @@ const followUser = async (userId) => {
       followedById: user.value.id,
     },
   });
+  isFollowed.value = true;
+  await props.post.user.followedBy.push({
+    followedById: user.value.id,
+    followedToId: userId,
+  });
+  console.log(props.post.user.followedBy);
   if (error) {
     return;
   }

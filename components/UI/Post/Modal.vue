@@ -1,7 +1,7 @@
 <template>
   <div
     ref="modal"
-    class="fixed top-1/2 left-1/2 rounded-xl dark:bg-[#232324] bg-white -translate-y-1/2 -translate-x-1/2 z-20"
+    class="fixed top-1/2 left-1/2 rounded-xl dark:bg-[#232324] bg-white -translate-y-1/2 -translate-x-1/2 z-40"
     :class="
       postModal.isFullscreen ? 'w-screen h-screen rounded-none' : 'w-2/4 h-3/4'
     "
@@ -74,6 +74,7 @@ const modal = ref(null);
 const postModal = usePostModal();
 const userStore = useUserStore();
 let isPosting = ref(false);
+let createdPost = ref({});
 
 const props = defineProps({
   currentUser: {
@@ -90,9 +91,10 @@ onClickOutside(modal, () => {
 const createPost = async () => {
   isPosting.value = true;
   try {
-    await $fetch("/api/create-post/", {
+    const post = await $fetch("/api/create-post/", {
       method: "POST",
       body: {
+        user: props.currentUser,
         userId: user.value.id,
         username: props.currentUser.username,
         image: `${
@@ -104,6 +106,12 @@ const createPost = async () => {
         picture: "http://placekitten.com/200/200",
       },
     });
+
+    createdPost = {
+      ...post,
+      user: props.currentUser,
+    };
+    userStore.posts = [createdPost, ...userStore.posts];
   } catch (err) {
     console.log(err);
   } finally {

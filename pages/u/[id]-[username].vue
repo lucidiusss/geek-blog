@@ -104,6 +104,25 @@
             name="solar:settings-outline"
           />
         </NuxtLink>
+        <button
+          @click="profileModal.isModalOpen = !profileModal.isModalOpen"
+          v-if="thisUser?.id !== user?.id"
+          ref="ignoreEl"
+          class="rounded-lg absolute right-10 dark:bg-[#333333] dark:hover:bg-[#2c2c2c] bg-[#f0f0f0] hover:bg-[#e6e6e6]"
+        >
+          <Icon
+            size="35"
+            name="bi:three-dots"
+            class="text-black dark:text-white p-2"
+          />
+          <UIFollowersModal
+            ref="targetEl"
+            @un-follow-user="unFollowUser()"
+            :isFollowing="isFollowing"
+            :currentUser="thisUser"
+            v-if="profileModal.isModalOpen"
+          />
+        </button>
       </div>
       <div class="mt-10">
         <div class="flex flex-col gap-3">
@@ -121,6 +140,28 @@
             {{ thisUser?.description }}
           </p>
         </div>
+        <div class="flex flex-row gap-3">
+          <button
+            :class="
+              thisUser.followedBy.length === 0
+                ? 'disabled hover:none cursor-auto'
+                : 'dark:hover:text-[#b4b4b4] hover:text-[#3c4347] cursor-pointer'
+            "
+            class="text-[15px] leading-[22px] dark:text-[#c9cccf] text-black"
+          >
+            {{ thisUser.followedBy.length }} подписчика
+          </button>
+          <button
+            :class="
+              thisUser.followedTo.length === 0
+                ? 'disabled hover:none cursor-auto'
+                : 'dark:hover:text-[#b4b4b4] hover:text-[#3c4347] cursor-pointer'
+            "
+            class="text-[15px] leading-[22px] dark:text-[#c9cccf] text-black"
+          >
+            {{ thisUser.followedTo.length }} подписок
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -136,23 +177,39 @@ let isLoading = ref(true);
 let realtimeChannel = RealtimeChannel;
 let isAvatarLoading = ref(false);
 let isBannerLoading = ref(false);
-let thisUser = ref();
+let thisUser = ref({});
+let isFollowing = ref(false);
 
 const imageUrl = ref(null);
+const targetEl = ref(null);
+const ignoreEl = ref(null);
 
 const userStore = useUserStore();
+const profileModal = useProfileModal();
 const client = useSupabaseClient();
 const user = useSupabaseUser();
+
+useHead({
+  title: `${username} (@${id}) - Блог`,
+});
 
 onMounted(() => {
   nextTick(async () => {
     try {
       await userStore.getUserById(id);
       thisUser.value = userStore.fetchedUser;
+      await userStore.getFollowers(userStore.fetchedUser.id);
     } catch (err) {
       console.log(err);
     } finally {
       isLoading.value = false;
+    }
+    if (userStore.fetchedUser.followedBy) {
+      userStore.fetchedUser.followedBy.forEach((u) => {
+        if (u.id === user?.id) {
+          isFollowing.value = true;
+        }
+      });
     }
   });
 });
@@ -261,6 +318,21 @@ const updateBanner = async (event) => {
   imageUrl.value = URL.createObjectURL(file);
 };
 
+const unFollowUser = async () => {
+  isFollowing.value = false;
+  try {
+    await useFetch(`/api/unfollow-user/`, {
+      method: "DELETE",
+      body: {
+        followedToId: thisUser.value.id,
+        followedById: user.value.id,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const options = {
   year: "numeric",
   month: "numeric",
@@ -272,5 +344,18 @@ const createdAt = computed(() => {
     "ru-RU",
     options
   );
+});
+
+onClickOutside(
+  targetEl,
+  () => {
+    profileModal.isModalOpen = false;
+  },
+  { ignore: [ignoreEl] }
+);
+
+onUnmounted(() => {
+  realtimeChannel.unsubscribe();
+  profileModal.isModalOpen = false;
 });
 </script>
