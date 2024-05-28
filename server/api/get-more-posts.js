@@ -12,7 +12,6 @@ export default defineEventHandler(async (event) => {
     include: {
       user: {
         include: {
-          followedTo: true,
           followedBy: true,
         },
       },

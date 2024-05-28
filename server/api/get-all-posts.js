@@ -5,11 +5,10 @@ const prisma = new PrismaClient();
 export default defineEventHandler(async () => {
   let posts = await prisma.post.findMany({
     take: 5,
-    orderBy: { id: "desc" },
+    orderBy: { createdAt: "desc" },
     include: {
       user: {
         include: {
-          followedTo: true,
           followedBy: true,
         },
       },
