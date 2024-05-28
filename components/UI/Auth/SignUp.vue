@@ -177,8 +177,6 @@
 </template>
 
 <script setup>
-import { ClientOnly } from "#build/components";
-
 const userStore = useUserStore();
 const client = useSupabaseClient();
 const authModal = useAuthModal();

@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
 
   let posts = await prisma.post.findMany({
     skip: parseInt(query.skip, 10),
-    take: 4,
+    take: 5,
     orderBy: { id: "desc" },
     include: {
       user: {

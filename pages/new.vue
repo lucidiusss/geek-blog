@@ -159,4 +159,8 @@ const fetchMorePosts = async () => {
 /* onUnmounted(() => {
   client.removeChannel(realtimeChannel);
 }); */
+
+definePageMeta({
+  keepalive: true,
+});
 </script>

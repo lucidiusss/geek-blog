@@ -5,4 +5,8 @@
   <UNotifications />
 </template>
 
-<script setup></script>
+<script setup>
+onMounted(async () => {
+  await preloadComponents(["Icon", "IconifyIcon"]);
+});
+</script>
