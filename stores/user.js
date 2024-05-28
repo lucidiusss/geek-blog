@@ -4,6 +4,7 @@ export const useUserStore = defineStore("user", {
   state: () => ({
     posts: [],
     singlePost: {},
+    newPosts: [],
     topics: [],
     fetchedUser: {},
     currentUser: {},
@@ -14,11 +15,21 @@ export const useUserStore = defineStore("user", {
   }),
   actions: {
     async getAllPosts() {
-      const res = await useFetch("/api/get-all-posts");
+      const res = await useFetch(`/api/get-all-posts`);
       if (!res) {
         this.posts.length = 0;
       } else {
         this.posts = res.data;
+      }
+      return res.data;
+    },
+    async getMorePosts(skips) {
+      const res = await useFetch(`/api/get-more-posts?skip=${skips}`);
+
+      if (!res) {
+        this.newPosts.length = 0;
+      } else {
+        this.newPosts = res.data;
       }
       return res.data;
     },

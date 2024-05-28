@@ -1,11 +1,10 @@
 <template>
   <div
-    class="relative dark:bg-[#232324] min-h-[250px] bg-[#ffffff] overflow-hidden rounded-xl p-6"
+    class="relative flex flex-col dark:bg-[#232324] min-h-[350px] bg-[#ffffff] overflow-hidden rounded-xl px-5 py-3"
   >
     <div class="flex flex-row items-center justify-between gap-2">
       <div class="flex flex-row items-center gap-2">
         <NuxtImg
-          v-motion-fade
           :src="
             post?.user?.profileImage
               ? `https://wsnrscwmvaliilxyaimk.supabase.co/storage/v1/object/public/avatars/${post?.user?.profileImage}`
@@ -13,14 +12,11 @@
           "
           class="w-9 h-9 rounded-full"
         />
-        <NuxtLink
-          v-motion-fade
-          :to="`/u/${post.user?.shortId}-${post.user?.username}`"
-          >{{ post?.user?.username }}</NuxtLink
-        >
+        <NuxtLink :to="`/u/${post.user?.shortId}-${post.user?.username}`">{{
+          post?.user?.username
+        }}</NuxtLink>
         <div>
           <NuxtLink
-            v-motion-fade
             :to="useRoute().path !== `/p/${post.id}` ? `/p/${post.id}` : ``"
           >
             <span
@@ -61,11 +57,13 @@
 
     <NuxtLink :to="useRoute().path !== `/p/${post.id}` ? `/p/${post.id}` : ``">
       <div
-        v-motion-fade
         v-html="content === 'full' ? post.content : filteredContent"
         class="my-8 prose-styles"
       ></div>
     </NuxtLink>
+    <div class="w-full h-full mt-auto">
+      <UIPostButtons :post="props.post" />
+    </div>
   </div>
 </template>
 

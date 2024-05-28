@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative dark:bg-[#232324] bg-[#ffffff] overflow-hidden rounded-xl p-6"
+    class="relative dark:bg-[#232324] h-[350px] bg-[#ffffff] overflow-hidden rounded-xl p-6"
   >
     <div class="flex flex-row items-center justify-between gap-2">
       <div class="flex flex-row items-center gap-2">

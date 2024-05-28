@@ -94,7 +94,6 @@ const createPost = async () => {
     const post = await $fetch("/api/create-post/", {
       method: "POST",
       body: {
-        user: props.currentUser,
         userId: user.value.id,
         username: props.currentUser.username,
         image: `${

@@ -2,9 +2,12 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
+  const query = getQuery(event);
+
   let posts = await prisma.post.findMany({
-    take: 8,
+    skip: parseInt(query.skip, 10),
+    take: 4,
     orderBy: { id: "desc" },
     include: {
       user: {
