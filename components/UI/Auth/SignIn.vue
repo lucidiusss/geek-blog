@@ -80,11 +80,13 @@
       @click="authModal.isOpen = false"
       class="absolute rounded-full dark:hover:bg-[#2c2c2c] hover:bg-[#f0f0f0] p-1 top-5 right-5"
     >
-      <Icon
-        size="25"
-        class="dark:text-[#969c9d] text-[#595959]"
-        name="heroicons:x-mark-16-solid"
-      />
+      <ClientOnly>
+        <Icon
+          size="25"
+          class="dark:text-[#969c9d] text-[#595959]"
+          name="heroicons:x-mark-16-solid"
+        />
+      </ClientOnly>
     </button>
   </div>
   <div
@@ -146,7 +148,9 @@
         class="w-2/4 font-medium text-[17px] h-14 p-3 rounded-xl custom-transition dark:text-[#c9cccf] dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5] bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] text-white"
         @click="signInWithEmail()"
       >
-        <Icon v-if="isLoading" name="eos-icons:three-dots-loading" size="35" />
+        <ClientOnly v-if="isLoading">
+          <Icon name="eos-icons:three-dots-loading" size="35" />
+        </ClientOnly>
         <h1 v-else>Войти</h1>
       </button>
     </div>
@@ -155,21 +159,25 @@
       @click="authModal.isOpen = false"
       class="absolute rounded-full dark:hover:bg-[#2c2c2c] hover:bg-[#f0f0f0] p-1 top-5 right-5"
     >
-      <Icon
-        size="25"
-        class="dark:text-[#969c9d] text-[#595959]"
-        name="heroicons:x-mark-16-solid"
-      />
+      <ClientOnly>
+        <Icon
+          size="25"
+          class="dark:text-[#969c9d] text-[#595959]"
+          name="heroicons:x-mark-16-solid"
+        />
+      </ClientOnly>
     </button>
     <button
       @click="authModal.isSigningIn = false"
       class="absolute rounded-full dark:hover:bg-[#2c2c2c] hover:bg-[#f0f0f0] p-1 top-5 left-5"
     >
-      <Icon
-        size="25"
-        class="dark:text-[#969c9d] text-[#595959]"
-        name="lucide:chevron-left"
-      />
+      <ClientOnly>
+        <Icon
+          size="25"
+          class="dark:text-[#969c9d] text-[#595959]"
+          name="lucide:chevron-left"
+        />
+      </ClientOnly>
     </button>
   </div>
 </template>
