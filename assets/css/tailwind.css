@@ -90,3 +90,12 @@ blockquote {
 strong {
   @apply text-black dark:text-[#c9cccf];
 }
+
+textarea {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+textarea::-webkit-scrollbar {
+  display: none;
+}

@@ -1,15 +1,11 @@
 <template>
   <div
-    class="relative flex flex-col dark:bg-[#232324] min-h-[350px] bg-[#ffffff] overflow-hidden rounded-xl px-5 py-3"
+    class="relative flex flex-col dark:bg-[#232324] min-h-[350px] bg-[#ffffff] overflow-hidden rounded-xl px-5 py-4"
   >
     <div class="flex flex-row items-center justify-between gap-2">
       <div class="flex flex-row items-center gap-2">
         <NuxtImg
-          :src="
-            post?.user?.profileImage
-              ? `https://wsnrscwmvaliilxyaimk.supabase.co/storage/v1/object/public/avatars/${post?.user?.profileImage}`
-              : `https://ui-avatars.com/api/?name=${post?.user?.username}`
-          "
+          :src="`https://wsnrscwmvaliilxyaimk.supabase.co/storage/v1/object/public/avatars/${post?.user?.profileImage}`"
           class="w-9 h-9 rounded-full"
         />
         <NuxtLink :to="`/u/${post.user?.shortId}-${post.user?.username}`">{{

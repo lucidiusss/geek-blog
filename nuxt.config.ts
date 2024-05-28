@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     "nuxt-tiptap-editor",
     "@nuxtjs/i18n",
     "@nuxtjs/color-mode",
+    "nuxt-anchorscroll",
   ],
   tiptap: {
     prefix: "Tiptap",

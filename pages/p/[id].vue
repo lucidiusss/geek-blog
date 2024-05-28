@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div class="flex flex-col gap-10 mb-10">
     <UIPost content="full" :post="post" v-if="!isLoading" />
     <UIPostSkeleton v-if="isLoading" />
+    <UIPostCommentSection v-if="!isLoading" id="#comments" :post="post" />
   </div>
 </template>
 

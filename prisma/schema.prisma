@@ -82,12 +82,12 @@ model Comment {
 model Like {
   id Int @id @default(autoincrement())
   userId  String @db.Uuid
-  postId Int
+  postId Int?
   commentId Int?
   createdAt DateTime @default(now())
 
 
-  post Post @relation(fields:[postId], references:[id])
+  post Post? @relation(fields:[postId], references:[id])
   comment Comment? @relation(fields:[commentId], references:[id])
   user User @relation(fields: [userId], references: [id])
 }

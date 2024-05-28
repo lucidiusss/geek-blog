@@ -30,15 +30,16 @@
         </span>
       </button>
     </div>
-    <button
-      class="flex flex-row gap-1 items-center text-[15px] leading-[22px] text-[#595959] dark:text-[#c9cccf] hover:text-[#0b5dd7] dark:hover:text-[#396eba]"
+    <NuxtLink
+      :to="{ path: `/p/${post.id}`, hash: '#comments' }"
+      class="flex cursor-pointer flex-row gap-1 items-center text-[15px] leading-[22px] text-[#595959] dark:text-[#c9cccf] hover:text-[#0b5dd7] dark:hover:text-[#396eba]"
     >
       <Icon
         class="w-7 h-7 p-1 rounded-full hover:bg-[#e6effd] dark:hover:bg-[#252e3d]"
         name="material-symbols:chat-bubble-outline-rounded"
       />
       <span>{{ post?.comments?.length }}</span>
-    </button>
+    </NuxtLink>
     <button
       class="flex flex-row gap-1 items-center text-[15px] leading-[22px] text-[#595959] dark:text-[#c9cccf] hover:text-[#0b5dd7] dark:hover:text-[#396eba]"
     >

@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   });
 
   const res = await prisma.like.delete({
-    where: { id: likeId[0].id, postId: body.postId },
+    where: { id: likeId[0].id, commentId: Number(event.context.params.id) },
   });
   return res;
 });
