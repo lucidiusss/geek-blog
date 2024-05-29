@@ -42,14 +42,16 @@
       <li
         class="dark:hover:bg-[#313131] hover:bg-[#f2f2f2] font-medium cursor-pointer p-3 rounded-xl custom-transition"
       >
-        <div class="flex items-center gap-2">
-          <Icon
-            size="25"
-            class="text-black dark:text-[#c9cccf]"
-            name="material-symbols:bookmark-outline-rounded"
-          />
-          <p>Закладки</p>
-        </div>
+        <NuxtLink to="/bookmarks">
+          <div class="flex items-center gap-2">
+            <Icon
+              size="25"
+              class="text-black dark:text-[#c9cccf]"
+              name="material-symbols:bookmark-outline-rounded"
+            />
+            <p>Закладки</p>
+          </div>
+        </NuxtLink>
       </li>
 
       <li

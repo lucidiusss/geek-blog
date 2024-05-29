@@ -35,3 +35,10 @@ export const useProfileModal = defineStore("profileModal", {
     },
   },
 });
+
+export const useFollowersModal = defineStore("followersModal", {
+  state: () => ({
+    isFollowedBy: false,
+    isFollowedTo: false,
+  }),
+});

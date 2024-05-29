@@ -42,33 +42,38 @@
       </ClientOnly>
       <span>{{ post?.comments?.length }}</span>
     </NuxtLink>
-    <div v-if="isSaved">
-      <button
-        :disabled="isSaving"
-        @click="unSavePost(props.post.id)"
-        class="flex flex-row gap-1 items-center text-[15px] leading-[22px] text-[#595959] dark:text-[#c9cccf] hover:text-[#0b5dd7] dark:hover:text-[#396eba]"
-      >
-        <ClientOnly>
-          <Icon
-            class="w-7 h-7 p-1 rounded-full hover:bg-[#e6effd] text-[#0b5dd7] dark:text-[#396eba] dark:hover:bg-[#252e3d]"
-            name="material-symbols:bookmark-rounded"
-          />
-        </ClientOnly>
-      </button>
-    </div>
-    <div v-if="!isSaved">
-      <button
-        :disabled="isSaving"
-        @click="savePost(props.post.id)"
-        class="flex flex-row gap-1 items-center text-[15px] leading-[22px] text-[#595959] dark:text-[#c9cccf] hover:text-[#0b5dd7] dark:hover:text-[#396eba]"
-      >
-        <ClientOnly>
-          <Icon
-            class="w-7 h-7 p-1 rounded-full hover:bg-[#e6effd] dark:hover:bg-[#252e3d]"
-            name="material-symbols:bookmark-outline-rounded"
-          />
-        </ClientOnly>
-      </button>
+    <div class="flex flex-row items-center">
+      <div v-if="isSaved">
+        <button
+          :disabled="isSaving"
+          @click="unSavePost(props.post.id)"
+          class="flex flex-row gap-1 items-center text-[15px] leading-[22px] text-[#595959] dark:text-[#c9cccf] hover:text-[#0b5dd7] dark:hover:text-[#396eba]"
+        >
+          <ClientOnly>
+            <Icon
+              class="w-7 h-7 p-1 rounded-full hover:bg-[#e6effd] text-[#0b5dd7] dark:text-[#396eba] dark:hover:bg-[#252e3d]"
+              name="material-symbols:bookmark-rounded"
+            />
+          </ClientOnly>
+        </button>
+      </div>
+      <div v-if="!isSaved">
+        <button
+          :disabled="isSaving"
+          @click="savePost(props.post.id)"
+          class="flex flex-row gap-1 items-center text-[15px] leading-[22px] text-[#595959] dark:text-[#c9cccf] hover:text-[#0b5dd7] dark:hover:text-[#396eba]"
+        >
+          <ClientOnly>
+            <Icon
+              class="w-7 h-7 p-1 rounded-full hover:bg-[#e6effd] dark:hover:bg-[#252e3d]"
+              name="material-symbols:bookmark-outline-rounded"
+            />
+          </ClientOnly>
+        </button>
+      </div>
+      <span :class="isSaved ? 'text-[#0b5dd7] dark:text-[#396eba]' : ''">{{
+        post?.bookmarks?.length
+      }}</span>
     </div>
   </div>
 </template>
@@ -93,6 +98,16 @@ onMounted(() => {
     props.post?.likes.forEach((like) => {
       if (like.userId === user.value.id) {
         isLiked.value = true;
+      }
+    });
+  }
+});
+
+onMounted(() => {
+  if (props.post?.bookmarks) {
+    props.post?.bookmarks.forEach((bookmark) => {
+      if (bookmark.userId === user.value.id) {
+        isSaved.value = true;
       }
     });
   }
@@ -137,14 +152,40 @@ const unLikePost = async () => {
   }
 };
 
-/* const savePost = async (id) => {
+const savePost = async (postId) => {
   isSaving.value = true;
   isSaved.value = true;
+  props.post.bookmarks.length += 1;
   try {
+    await $fetch(`/api/save-post/${postId}`, {
+      method: "POST",
+      body: {
+        userId: user.value.id,
+      },
+    });
   } catch (error) {
     console.log(error);
   } finally {
     isSaving.value = false;
   }
-}; */
+};
+
+const unSavePost = async (postId) => {
+  isSaving.value = true;
+  isSaved.value = false;
+  props.post.bookmarks.length -= 1;
+
+  try {
+    await $fetch(`/api/unsave-post/${postId}`, {
+      method: "DELETE",
+      body: {
+        userId: user.value.id,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isSaving.value = false;
+  }
+};
 </script>

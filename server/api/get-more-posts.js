@@ -17,6 +17,7 @@ export default defineEventHandler(async (event) => {
       },
       likes: true,
       comments: true,
+      bookmarks: true,
     },
   });
   return posts;

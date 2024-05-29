@@ -142,6 +142,8 @@
         </div>
         <div class="flex flex-row gap-3">
           <button
+            :disabled="thisUser.followedBy.length === 0"
+            @click="followersModal.isFollowedBy = true"
             :class="
               thisUser.followedBy.length === 0
                 ? 'disabled hover:none cursor-auto'
@@ -149,9 +151,12 @@
             "
             class="text-[15px] leading-[22px] dark:text-[#c9cccf] text-black"
           >
-            {{ thisUser.followedBy.length }} подписчика
+            {{ thisUser.followedBy.length }}
+            {{ getFollowersLabel(thisUser.followedBy.length) }}
           </button>
           <button
+            @click="followersModal.isFollowedTo = true"
+            :disabled="thisUser.followedTo.length === 0"
             :class="
               thisUser.followedTo.length === 0
                 ? 'disabled hover:none cursor-auto'
@@ -159,12 +164,26 @@
             "
             class="text-[15px] leading-[22px] dark:text-[#c9cccf] text-black"
           >
-            {{ thisUser.followedTo.length }} подписок
+            {{ thisUser.followedTo.length }}
+            {{ getSubscriptionsLabel(thisUser.followedTo.length) }}
           </button>
         </div>
       </div>
     </div>
   </div>
+  <Teleport to="body">
+    <UIAuthBackground
+      v-show="followersModal.isFollowedBy || followersModal.isFollowedTo"
+    />
+    <UIProfileFollowedBy
+      :followers="thisUsersFollowers"
+      v-if="followersModal.isFollowedBy"
+    />
+    <UIProfileFollowedTo
+      :follows="thisUsersFollows"
+      v-if="followersModal.isFollowedTo"
+    />
+  </Teleport>
 </template>
 
 <script setup>
@@ -172,12 +191,15 @@ import { RealtimeChannel } from "@supabase/supabase-js";
 
 const { username } = useRoute().params;
 const { id } = useRoute().params;
+const followersModal = useFollowersModal();
 
 let isLoading = ref(true);
 let realtimeChannel = RealtimeChannel;
 let isAvatarLoading = ref(false);
 let isBannerLoading = ref(false);
 let thisUser = ref({});
+let thisUsersFollowers = ref([]);
+let thisUsersFollows = ref([]);
 let isFollowing = ref(false);
 
 const imageUrl = ref(null);
@@ -198,7 +220,10 @@ onMounted(() => {
     try {
       await userStore.getUserById(id);
       thisUser.value = userStore.fetchedUser;
-      await userStore.getFollowers(userStore.fetchedUser.id);
+      await userStore.getFollowers(thisUser.value.id);
+      thisUsersFollowers.value = userStore.followers;
+      await userStore.getFollows(thisUser.value.id);
+      thisUsersFollows.value = userStore.follows;
     } catch (err) {
       console.log(err);
     } finally {
@@ -345,6 +370,32 @@ const createdAt = computed(() => {
     options
   );
 });
+
+const getFollowersLabel = (count) => {
+  if (count % 10 === 1 && count % 100 !== 11) {
+    return "подписчик";
+  } else if (
+    [2, 3, 4].includes(count % 10) &&
+    ![12, 13, 14].includes(count % 100)
+  ) {
+    return "подписчика";
+  } else {
+    return "подписчиков";
+  }
+};
+
+const getSubscriptionsLabel = (count) => {
+  if (count % 10 === 1 && count % 100 !== 11) {
+    return "подписка";
+  } else if (
+    [2, 3, 4].includes(count % 10) &&
+    ![12, 13, 14].includes(count % 100)
+  ) {
+    return "подписки";
+  } else {
+    return "подписок";
+  }
+};
 
 onClickOutside(
   targetEl,

@@ -86,6 +86,4 @@ const submit = async (postId) => {
     input.value = "";
   }
 };
-
-console.log(userStore.currentUser);
 </script>

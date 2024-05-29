@@ -12,6 +12,7 @@ export default defineEventHandler(async (event) => {
         },
       },
       likes: true,
+      bookmarks: true,
       comments: {
         orderBy: { createdAt: "desc" },
         include: {

@@ -51,8 +51,4 @@ onClickOutside(
   },
   { ignore: [ignoreEl] }
 );
-
-definePageMeta({
-  keepalive: true,
-});
 </script>

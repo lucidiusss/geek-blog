@@ -8,11 +8,9 @@
           :src="`https://wsnrscwmvaliilxyaimk.supabase.co/storage/v1/object/public/avatars/${post?.user?.profileImage}`"
           class="w-9 h-9 rounded-full"
         />
-        <NuxtLink
-          class="dark:hover:text-[#9b9d9f] hover:text-[#474747]"
-          :to="`/u/${post.user?.shortId}-${post.user?.username}`"
-          >{{ post?.user?.username }}</NuxtLink
-        >
+        <NuxtLink :to="`/u/${post.user?.shortId}-${post.user?.username}`">{{
+          post?.user?.username
+        }}</NuxtLink>
         <div>
           <NuxtLink
             :to="useRoute().path !== `/p/${post.id}` ? `/p/${post.id}` : ``"
@@ -74,16 +72,9 @@ let isDropdown = ref(false);
 let isFollowed = ref(false);
 
 const props = defineProps({
-  post: {
+  bookmark: {
     type: Object,
     required: false,
-  },
-
-  content: {
-    type: String,
-  },
-  type: {
-    type: String,
   },
 });
 
@@ -131,11 +122,11 @@ onClickOutside(
   { ignore: [ignoreEl] }
 );
 
-const filteredContent = computed(() => {
+/* const filteredContent = computed(() => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(props.post.content, "text/html");
   const h1 = doc.querySelector("h1");
   const p = doc.querySelector("p");
   return `${h1 ? h1.outerHTML : ""}${p ? p.outerHTML : ""}`;
-});
+}); */
 </script>

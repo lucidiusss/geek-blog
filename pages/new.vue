@@ -10,6 +10,7 @@
         :ref="index == posts.length - 1 ? 'target' : null"
         :key="post.id"
         :post="post"
+        type="post"
       />
     </div>
 
@@ -159,8 +160,4 @@ const fetchMorePosts = async () => {
 /* onUnmounted(() => {
   client.removeChannel(realtimeChannel);
 }); */
-
-definePageMeta({
-  keepalive: true,
-});
 </script>

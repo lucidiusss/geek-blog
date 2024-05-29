@@ -29,6 +29,7 @@ model Post {
 
   comments Comment[]
   likes Like[]
+  bookmarks Bookmark[]
 }
 
 model Category {
@@ -52,13 +53,13 @@ model User {
   name String?
   username String
   description String?
-  bookmarks Json?
 
   createdAt DateTime @default(now())
 
   followedBy Follows[] @relation("followedTo")
   followedTo  Follows[] @relation("followedBy")
   comments Comment[]
+  bookmarks Bookmark[]
   post Post[]
   likes Like[]
 }
@@ -92,6 +93,16 @@ model Like {
   user User @relation(fields: [userId], references: [id])
 }
 
+
+model Bookmark {
+  id Int @id @default(autoincrement())
+  userId  String @db.Uuid
+  postId Int
+
+  post Post @relation(fields:[postId], references:[id])
+  user User @relation(fields: [userId], references: [id])
+
+}
 
 model Follows {
   followedBy   User @relation("followedBy", fields: [followedById], references: [id])

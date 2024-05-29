@@ -5,7 +5,10 @@ export const useUserStore = defineStore("user", {
     posts: [],
     singlePost: {},
     newPosts: [],
+    bookmarks: [],
     topics: [],
+    followers: [],
+    follows: [],
     fetchedUser: {},
     currentUser: {},
     isUserLoaded: false,
@@ -66,7 +69,26 @@ export const useUserStore = defineStore("user", {
       const res = await useFetch(`/api/get-followers/${id}`, {
         method: "GET",
       });
-      this.followerCount = res.data.length;
+      this.followers = res.data;
+      return res.data;
+    },
+    async getFollows(id) {
+      const res = await useFetch(`/api/get-follows/${id}`, {
+        method: "GET",
+      });
+      this.follows = res.data;
+      return res.data;
+    },
+    async getBookmarks(id) {
+      const res = await useFetch(`/api/get-bookmarks/${id}`, {
+        method: "GET",
+      });
+
+      if (!res) {
+        this.bookmarks.length = 0;
+      } else {
+        this.bookmarks = res.data;
+      }
       return res.data;
     },
   },
