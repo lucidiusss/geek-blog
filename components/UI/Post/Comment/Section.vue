@@ -1,13 +1,14 @@
 <template>
   <div
-    id="#comments"
+    id="comments"
     class="flex flex-col gap-4 dark:bg-[#232324] min-h-[350px] bg-[#ffffff] overflow-hidden rounded-xl px-5 py-4"
   >
     <div>
       <h1
         class="text-[20px] leading-[28px] font-medium dark:text-[#c9cccf] text-[#595959]"
       >
-        {{ props?.post?.comments?.length }} Комментариев
+        {{ props?.post?.comments?.length }}
+        {{ pluralizeComments(props?.post?.comments?.length) }}
       </h1>
     </div>
     <div class="relative">
@@ -69,12 +70,16 @@ const submit = async (postId) => {
       },
     });
 
+    console.log(data.value);
+
     createdComment = {
       likes: [],
       user: userStore.currentUser,
       ...data.value,
     };
     props.post.comments = [createdComment, ...props.post.comments];
+
+    console.log(props.post.comments);
 
     if (error.value) {
       throw error.value;
@@ -85,5 +90,15 @@ const submit = async (postId) => {
     isPosting.value = false;
     input.value = "";
   }
+};
+
+const pluralizeComments = (count) => {
+  const cases = [2, 0, 1, 1, 1, 2];
+  const titles = ["комментарий", "комментария", "комментариев"];
+  return titles[
+    count % 100 > 4 && count % 100 < 20
+      ? 2
+      : cases[count % 10 < 5 ? count % 10 : 5]
+  ];
 };
 </script>

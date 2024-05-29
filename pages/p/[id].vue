@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col gap-10 mb-10">
-    <UIPost content="full" :post="post" v-if="!isLoading" />
     <UIPostSkeleton v-if="isLoading" />
-    <UIPostCommentSection v-if="!isLoading" id="#comments" :post="post" />
+    <UIPost content="full" :post="post" v-if="!isLoading" />
+    <UIPostCommentSection v-if="!isLoading" :post="post" />
   </div>
 </template>
 
@@ -18,6 +18,7 @@ const { id } = useRoute().params;
 
 onBeforeMount(async () => {
   try {
+    await preloadComponents(["UIPost"]);
     await userStore.getSinglePost(id);
   } catch (err) {
     console.log(err);
