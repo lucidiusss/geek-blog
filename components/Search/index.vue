@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center mx-auto w-full">
-    <div class="relative flex flex-row w-full h-full items-center gap-2">
+    <div class="relative flex flex-row  w-full xl:  h-full items-center gap-2">
       <input
         ref="target"
         type="text"

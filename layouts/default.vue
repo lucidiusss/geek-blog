@@ -3,19 +3,21 @@
     class="fixed top-0 left-0 z-10 dark:bg-[#26282b] bg-[#d9f0ff] h-[60px] w-full"
   >
     <div
-      class="grid grid-cols-12 gap-6 justify-center mx-auto lg:max-w-[1280px] h-[60px]"
+      class="grid grid-cols-12 gap-6 md:grid-cols-9 lg:grid-cols-12 xl:grid-cols-12 justify-center mx-auto lg:max-w-[1280px] h-[60px]"
     >
-      <div class="xs:col-span-2 xl:col-span-3 ml-[76px] flex items-center">
+      <div
+        class="col-span-3 2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 sm:col-span-9 xl:ml-[76px] xs:ml-[15px] flex items-center"
+      >
         <UILogo />
       </div>
       <div
-        class="col-span-12 md:col-span-8 xl:col-span-6 flex items-center w-full"
+        class="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-3 md:flex sm:hidden flex items-center w-full"
       >
         <Search />
       </div>
 
       <div
-        class="col-span-12 xl:col-span-3 md:col-span-2 flex items-center w-full ml-14"
+        class="col-span-3 2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 md:flex sm:hidden flex items-center w-full 2xl:ml-14"
       >
         <div class="sticky top-0">
           <UIProfile :currentUser="currentUser" />
@@ -24,14 +26,20 @@
     </div>
   </div>
   <div class="min-h-full mt-20 w-full">
-    <div class="grid grid-cols-12 gap-[30px] mx-auto lg:max-w-[1280px]">
-      <div class="hidden md:block xs:col-span-2 xl:col-span-3">
+    <div
+      class="grid grid-cols-12 md:grid-cols-9 lg:grid-cols-12 xl:grid-cols-12 gap-[30px] mx-auto lg:max-w-[1280px]"
+    >
+      <div
+        class="col-span-3 2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 md:block sm:hidden"
+      >
         <div class="sticky top-20 h-[90vh] ml-16">
           <SidebarLeft />
         </div>
       </div>
 
-      <main class="col-span-12 md:col-span-8 xl:col-span-6">
+      <main
+        class="xl:col-span-6 2xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-12 sm:mx-10 md:mr-[17px]"
+      >
         <slot />
       </main>
 
@@ -43,6 +51,12 @@
         </div>
       </div> -->
     </div>
+  </div>
+
+  <div
+    class="fixed bottom-0 left-0 z-10 dark:bg-[#232324] bg-white md:hidden xs:block w-full"
+  >
+    <UIFooter :currentUser="currentUser" />
   </div>
 </template>
 

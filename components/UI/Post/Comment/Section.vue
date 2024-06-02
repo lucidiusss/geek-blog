@@ -7,8 +7,8 @@
       <h1
         class="text-[20px] leading-[28px] font-medium dark:text-[#c9cccf] text-[#595959]"
       >
-        {{ props?.post?.comments?.length }}
-        {{ pluralizeComments(props?.post?.comments?.length) }}
+        {{ comments.length }}
+        {{ pluralizeComments(comments.length) }}
       </h1>
     </div>
     <div class="relative">
@@ -24,12 +24,17 @@
         @click="submit(props.post.id)"
         class="absolute bottom-6 right-6 px-3 py-2 custom-transition leading-[15px] text-[15px] font-medium rounded-lg text-white bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5]"
       >
-        <p v-if="!isPosting">Отправить</p>
-        <Icon name="eos-icons:three-dots-loading" v-else size="20" />
+        <p class="w-full" v-if="!isPosting">Отправить</p>
+        <Icon
+          name="eos-icons:three-dots-loading"
+          class="w-full"
+          v-else
+          size="20"
+        />
       </button>
     </div>
     <div class="flex flex-col gap-10">
-      <div v-for="(comment, index) in props.post.comments">
+      <div v-for="(comment, index) in comments">
         <UIPostComment :comment="comment" :post="post" :key="index" />
       </div>
     </div>
@@ -49,7 +54,8 @@ const props = defineProps({
 
 let isTyping = ref(false);
 let isPosting = ref(false);
-let createdComment = ref(null);
+let createdComment = ref({});
+let comments = ref([]);
 
 watch(input, () => {
   if (input.value.length > 0) {
@@ -59,10 +65,15 @@ watch(input, () => {
   }
 });
 
+onBeforeMount(() => {
+  if (props.post.comments) {
+    comments.value = props.post.comments;
+  }
+});
 const submit = async (postId) => {
   isPosting.value = true;
   try {
-    const { error, data } = await useFetch(`/api/create-comment/${postId}`, {
+    const comment = await useFetch(`/api/create-comment/${postId}`, {
       method: "POST",
       body: {
         text: input.value,
@@ -70,20 +81,14 @@ const submit = async (postId) => {
       },
     });
 
-    console.log(data.value);
-
     createdComment = {
-      likes: [],
+      ...comment.data.value,
       user: userStore.currentUser,
-      ...data.value,
+      createdAt: new Date(),
+      likes: [],
     };
-    props.post.comments = [createdComment, ...props.post.comments];
 
-    console.log(props.post.comments);
-
-    if (error.value) {
-      throw error.value;
-    }
+    comments.value.unshift(createdComment);
   } catch (error) {
     console.log(error);
   } finally {

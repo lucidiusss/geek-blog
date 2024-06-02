@@ -7,6 +7,7 @@ export const useUserStore = defineStore("user", {
     newPosts: [],
     bookmarks: [],
     topics: [],
+    comments: [],
     followers: [],
     follows: [],
     fetchedUser: {},
@@ -89,6 +90,13 @@ export const useUserStore = defineStore("user", {
       } else {
         this.bookmarks = res.data;
       }
+      return res.data;
+    },
+
+    async getUsersPosts(id) {
+      const res = await useFetch(`/api/get-users-posts/${id}`, {
+        method: "GET",
+      });
       return res.data;
     },
   },

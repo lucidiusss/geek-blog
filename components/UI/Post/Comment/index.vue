@@ -135,5 +135,5 @@ const unLikeComment = async () => {
   }
 };
 
-const timeAgo = useTimeAgo(props.comment.createdAt);
+const timeAgo = useTimeAgo(props?.comment?.createdAt);
 </script>

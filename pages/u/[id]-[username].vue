@@ -140,7 +140,7 @@
             {{ thisUser?.description }}
           </p>
         </div>
-        <div class="flex flex-row gap-3">
+        <div class="flex flex-row gap-3 mt-5">
           <button
             :disabled="thisUser.followedBy.length === 0"
             @click="followersModal.isFollowedBy = true"
@@ -170,6 +170,13 @@
         </div>
       </div>
     </div>
+    <div class="p-5 absolute -bottom-2">
+      <UTabs :items="tabs" :default-index="0" @change="onTabChange" />
+    </div>
+  </div>
+
+  <div class="mt-10 flex flex-col gap-6" v-for="post in posts">
+    <UIPost :post="post" v-if="!isLoading && activeTab === 'posts'" />
   </div>
   <Teleport to="body">
     <UIAuthBackground
@@ -201,6 +208,8 @@ let thisUser = ref({});
 let thisUsersFollowers = ref([]);
 let thisUsersFollows = ref([]);
 let isFollowing = ref(false);
+let posts = ref([]);
+let activeTab = ref("posts");
 
 const imageUrl = ref(null);
 const targetEl = ref(null);
@@ -211,6 +220,27 @@ const profileModal = useProfileModal();
 const client = useSupabaseClient();
 const user = useSupabaseUser();
 
+const tabs = [
+  {
+    label: "Посты",
+    type: "posts",
+  },
+  {
+    label: "Комментарии",
+    type: "comments",
+  },
+];
+
+const onTabChange = (index) => {
+  const tab = tabs[index];
+
+  if (tab.type === "posts") {
+    activeTab.value = "posts";
+  } else if (tab.type === "comments") {
+    activeTab.value = "comments";
+  }
+};
+
 useHead({
   title: `${username} (@${id}) - Блог`,
 });
@@ -220,6 +250,9 @@ onMounted(() => {
     try {
       await userStore.getUserById(id);
       thisUser.value = userStore.fetchedUser;
+      if (thisUser.value.id === user.value.id) {
+        posts.value = thisUser.value.post;
+      }
       await userStore.getFollowers(thisUser.value.id);
       thisUsersFollowers.value = userStore.followers;
       await userStore.getFollows(thisUser.value.id);

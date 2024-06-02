@@ -8,6 +8,7 @@ export default defineEventHandler(async (event) => {
   const likeId = await prisma.like.findMany({
     where: {
       userId: body.userId,
+      postId: body.postId,
     },
   });
 

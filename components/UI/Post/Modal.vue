@@ -110,7 +110,9 @@ const createPost = async () => {
       ...post,
       user: props.currentUser,
     };
+
     userStore.posts = [createdPost, ...userStore.posts];
+    console.log(userStore.posts);
   } catch (err) {
     console.log(err);
   } finally {

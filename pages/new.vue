@@ -1,5 +1,12 @@
 <template>
   <div class="w-full relative h-full flex flex-col gap-6">
+    <ClientOnly>
+      <div class="flex flex-col gap-6" v-if="isLoading">
+        <UIPostSkeleton />
+        <UIPostSkeleton />
+        <UIPostSkeleton />
+      </div>
+    </ClientOnly>
     <div
       v-if="!isLoading"
       v-for="(post, index) in posts"
@@ -15,13 +22,6 @@
     </div>
 
     <ClientOnly>
-      <div class="flex flex-col gap-6" v-if="isLoading">
-        <UIPostSkeleton />
-        <UIPostSkeleton />
-        <UIPostSkeleton />
-      </div>
-    </ClientOnly>
-    <ClientOnly>
       <div
         v-if="isFetching"
         class="dark:bg-[#232324] justify-center flex shadow-xl bg-[#ffffff] rounded-xl p-2"
@@ -34,14 +34,11 @@
 
 <script setup>
 import { useIntersectionObserver } from "@vueuse/core";
-import { RealtimeChannel } from "@supabase/supabase-js";
 const userStore = useUserStore();
 const client = useSupabaseClient();
-let realtimeChannel = RealtimeChannel;
 let posts = ref();
 let isLoading = ref(true);
 let isFetching = ref(false);
-
 const target = ref(null);
 
 const targetIsVisible = ref(false);
@@ -160,4 +157,7 @@ const fetchMorePosts = async () => {
 /* onUnmounted(() => {
   client.removeChannel(realtimeChannel);
 }); */
+definePageMeta({
+  keepalive: true,
+});
 </script>

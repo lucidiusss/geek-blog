@@ -4,8 +4,7 @@
       <button>
         <Icon
           name="mdi:bell-outline"
-          class="text-black hover:text-[#3c4347] dark:text-white dark:hover:text-[#c3c3c4] custom-transition"
-          size="30"
+          class="text-black xl:w-6 xl:h-6 md:w-5 md:h-5 hover:text-[#3c4347] dark:text-white dark:hover:text-[#c3c3c4] custom-transition"
         />
       </button>
     </div>
@@ -14,11 +13,10 @@
         @click="
           !user ? (authModal.isOpen = true) : (postModal.isModalOpen = true)
         "
-        class="dark:text-[#c9cccf] font-medium leading-4 text-black px-3 py-2 border dark:border-transparent border-[#f0f0f0] bg-white hover:shadow custom-transition rounded-full dark:bg-[#2c2c2c] text-[17px] dark:hover:border-[#474747]"
+        class="dark:text-[#c9cccf] font-medium leading-4 text-black px-3 py-2 max-md:p-1.5 border dark:border-transparent border-[#f0f0f0] bg-white hover:shadow custom-transition rounded-full dark:bg-[#2c2c2c] xl:text-[17px] md:text-[15px] dark:hover:border-[#474747]"
       >
         <Icon
-          size="25"
-          class="text-black dark:text-[#c9cccf]"
+          class="text-black xl:w-6 xl:h-6 md:h-4 md:w-4 dark:text-[#c9cccf]"
           name="material-symbols:edit-outline-rounded"
         />
         Написать
