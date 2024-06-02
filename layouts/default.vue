@@ -11,13 +11,13 @@
         <UILogo />
       </div>
       <div
-        class="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-3 md:flex sm:hidden flex items-center w-full"
+        class="2xl:col-span-6 xl:col-span-6 lg:col-span-6 md:col-span-3 md:flex sm:hidden xs:hidden flex items-center w-full"
       >
         <Search />
       </div>
 
       <div
-        class="col-span-3 2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 md:flex sm:hidden flex items-center w-full 2xl:ml-14"
+        class="col-span-3 2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 md:flex sm:hidden xs:hidden flex items-center w-full 2xl:ml-14"
       >
         <div class="sticky top-0">
           <UIProfile :currentUser="currentUser" />
@@ -25,12 +25,17 @@
       </div>
     </div>
   </div>
-  <div class="min-h-full mt-20 w-full">
+  <div class="min-h-full mt-20 w-full relative">
+    <div
+      class="sticky top-15 left-0 dark:bg-[#232324] bg-white md:hidden mb-5 xs:block"
+    >
+      <UIHeader />
+    </div>
     <div
       class="grid grid-cols-12 md:grid-cols-9 lg:grid-cols-12 xl:grid-cols-12 gap-[30px] mx-auto lg:max-w-[1280px]"
     >
       <div
-        class="col-span-3 2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 md:block sm:hidden"
+        class="col-span-3 2xl:col-span-3 xl:col-span-3 lg:col-span-3 md:col-span-3 md:block sm:hidden xs:hidden"
       >
         <div class="sticky top-20 h-[90vh] ml-16">
           <SidebarLeft />
@@ -38,7 +43,7 @@
       </div>
 
       <main
-        class="xl:col-span-6 2xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-12 sm:mx-10 md:mr-[17px]"
+        class="xl:col-span-6 2xl:col-span-6 lg:col-span-6 md:col-span-6 sm:col-span-12 xs:col-span-12 md:mr-[50px] sm:mx-10"
       >
         <slot />
       </main>

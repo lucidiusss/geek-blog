@@ -5,7 +5,7 @@
       v-if="editor"
       class="text-white"
     >
-      <TiptapBubbleMenu
+      <!--  <TiptapBubbleMenu
         :editor="editor"
         v-show="!postModal.isFullscreen"
         :tippy-options="{ duration: 100 }"
@@ -61,7 +61,7 @@
             />
           </button>
 
-          <!-- <button
+          <button
             @click="setLink"
             :class="{ 'is-active': editor.isActive('link') }"
           >
@@ -72,11 +72,11 @@
             :disabled="!editor.isActive('link')"
           >
             unsetLink
-          </button> -->
+          </button>
         </div>
-      </TiptapBubbleMenu>
+      </TiptapBubbleMenu> -->
       <div
-        class="flex flex-row mx-auto gap-1 items-center dark:bg-[#1f1f1f] p-2 rounded-xl border border-1 dark:border-[#2d2d2d] shadow-xl h-16 mb-14 w-fit"
+        class="flex flex-row mt-5 w-full xs:flex-wrap justify-center mx-auto gap-1 items-center dark:bg-[#1f1f1f] p-2 rounded-xl border border-1 dark:border-[#2d2d2d] shadow-xl mb-14"
       >
         <div
           class="flex flex-row gap-1 pr-2 items-center border-r dark:border-r-[#2d2d2d]"
@@ -256,9 +256,8 @@ const editor = useEditor({
 
   editorProps: {
     attributes: {
-      class: ` ${
-        postModal.isFullscreen ? "h-2/3 w-full p-4" : "p-2 max-h-[500px] w-full"
-      } bg-transparent prose-styles overflow-y-auto max-w-none focus:outline-none `,
+      class:
+        "bg-transparent prose-styles h-2/3 w-full p-4 overflow-y-scroll max-h-[500px] max-w-none focus:outline-none",
     },
   },
 });

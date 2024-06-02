@@ -7,7 +7,7 @@
     ></div>
     <div class="p-5">
       <div
-        class="w-full flex flex-row items-end justify-between absolute top-[35%] left-5"
+        class="flex flex-row items-end justify-between absolute top-[35%] left-5"
       >
         <USkeleton
           class="w-24 h-24 rounded-full dark:bg-[#353436] bg-[#f1f1f1] border-2 border-white dark:border-[#232324]"

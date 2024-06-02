@@ -1,16 +1,9 @@
 <template>
   <div
     ref="modal"
-    class="fixed top-1/2 left-1/2 rounded-xl dark:bg-[#232324] bg-white -translate-y-1/2 -translate-x-1/2 z-40"
-    :class="
-      postModal.isFullscreen ? 'w-screen h-screen rounded-none' : 'w-2/4 h-3/4'
-    "
+    class="fixed top-1/2 left-1/2 dark:bg-[#232324] w-screen h-screen bg-white -translate-y-1/2 -translate-x-1/2 z-40"
   >
     <div class="absolute top-2 right-2 gap-2 flex">
-      <UIPostButton
-        icon="ion:resize"
-        @click="postModal.isFullscreen = !postModal.isFullscreen"
-      />
       <UIPostButton
         icon="heroicons:x-mark-16-solid"
         @click="postModal.isModalOpen = false"
@@ -44,16 +37,11 @@
         </div>
       </div>
       <div
-        class="flex flex-col justify-between"
-        :class="
-          postModal.isFullscreen
-            ? ' w-1/2 h-[90%] mx-auto'
-            : 'w-3/4 h-[90%] mx-auto'
-        "
+        class="flex flex-col items-center justify-between w-1/2 h-[90%] mx-auto"
       >
         <UIPostTipTapEditor />
       </div>
-      <div :class="postModal.isFullscreen ? ' w-1/2 mx-auto' : 'w-3/4 mx-auto'">
+      <div class="w-1/2 mx-auto">
         <div class="w-fit">
           <button
             :disabled="isPosting"

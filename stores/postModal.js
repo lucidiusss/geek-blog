@@ -4,7 +4,7 @@ export const usePostModal = defineStore("postModal", {
   state: () => ({
     isDropdown: false,
     isModalOpen: false,
-    isFullscreen: false,
+    isFullscreen: true,
     content: {},
   }),
 });

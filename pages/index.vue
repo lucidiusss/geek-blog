@@ -1,7 +1,15 @@
 <template>
-  <div
-    class="xs:block md:hidden dark:text-[#c9cccf] dark:bg-[#232324] px-5 pt-1 rounded-xl bg-[#ffffff] text-black font-medium text-[17px] mb-6"
-  ></div>
+  <button
+    @click="postModal.isModalOpen = true"
+    class="fixed xs:block md:hidden rounded-full p-3 dark:bg-[#2c2c2c] border-[#e4e4e4] shadow bg-white z-10 bottom-20 right-5"
+  >
+    <Icon
+      class="xl:w-6 xl:h-6 md:h-4 md:w-4 xs:w-6 xs:h-6 text-[#418af4]"
+      name="material-symbols:edit-outline-rounded"
+    />
+  </button>
 </template>
 
-<script setup></script>
+<script setup>
+const postModal = usePostModal();
+</script>

@@ -47,8 +47,38 @@
       />
     </div>
     <div class="p-5">
+      <NuxtLink
+        v-if="thisUser?.id === user?.id"
+        to="/settings"
+        class="rounded-lg absolute right-10 dark:bg-[#333333] dark:hover:bg-[#2c2c2c] bg-[#f0f0f0] hover:bg-[#e6e6e6]"
+      >
+        <Icon
+          size="35"
+          class="text-black dark:text-white p-2"
+          name="solar:settings-outline"
+        />
+      </NuxtLink>
+      <button
+        @click="profileModal.isModalOpen = !profileModal.isModalOpen"
+        v-if="thisUser?.id !== user?.id"
+        ref="ignoreEl"
+        class="rounded-lg absolute right-10 dark:bg-[#333333] dark:hover:bg-[#2c2c2c] bg-[#f0f0f0] hover:bg-[#e6e6e6]"
+      >
+        <Icon
+          size="35"
+          name="bi:three-dots"
+          class="text-black dark:text-white p-2"
+        />
+        <UIFollowersModal
+          ref="targetEl"
+          @un-follow-user="unFollowUser()"
+          :isFollowing="isFollowing"
+          :currentUser="thisUser"
+          v-if="profileModal.isModalOpen"
+        />
+      </button>
       <div
-        class="w-full flex flex-row items-end justify-between absolute top-[35%] left-5"
+        class="flex flex-row items-end justify-between absolute top-[35%] left-5"
       >
         <div
           class="w-24 h-24 relative rounded-full border-2 border-white dark:border-[#232324]"
@@ -92,37 +122,6 @@
             />
           </ClientOnly>
         </div>
-
-        <NuxtLink
-          v-if="thisUser?.id === user?.id"
-          to="/settings"
-          class="rounded-lg absolute right-10 dark:bg-[#333333] dark:hover:bg-[#2c2c2c] bg-[#f0f0f0] hover:bg-[#e6e6e6]"
-        >
-          <Icon
-            size="35"
-            class="text-black dark:text-white p-2"
-            name="solar:settings-outline"
-          />
-        </NuxtLink>
-        <button
-          @click="profileModal.isModalOpen = !profileModal.isModalOpen"
-          v-if="thisUser?.id !== user?.id"
-          ref="ignoreEl"
-          class="rounded-lg absolute right-10 dark:bg-[#333333] dark:hover:bg-[#2c2c2c] bg-[#f0f0f0] hover:bg-[#e6e6e6]"
-        >
-          <Icon
-            size="35"
-            name="bi:three-dots"
-            class="text-black dark:text-white p-2"
-          />
-          <UIFollowersModal
-            ref="targetEl"
-            @un-follow-user="unFollowUser()"
-            :isFollowing="isFollowing"
-            :currentUser="thisUser"
-            v-if="profileModal.isModalOpen"
-          />
-        </button>
       </div>
       <div class="mt-10">
         <div class="flex flex-col gap-3">
@@ -442,4 +441,6 @@ onUnmounted(() => {
   realtimeChannel.unsubscribe();
   profileModal.isModalOpen = false;
 });
+
+definePageMeta({});
 </script>

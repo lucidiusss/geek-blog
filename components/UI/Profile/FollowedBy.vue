@@ -2,7 +2,7 @@
   <div
     tabindex="0"
     ref="targetEl"
-    class="fixed w-1/4 min-h-[350px] top-1/2 left-1/2 rounded-xl dark:bg-[#232324] bg-white -translate-y-1/2 -translate-x-1/2 z-40"
+    class="fixed xs:w-3/4 sm:w-2/4 md:w-2/4 lg:w-1/4 min-h-[350px] top-1/2 left-1/2 rounded-xl dark:bg-[#232324] bg-white -translate-y-1/2 -translate-x-1/2 z-40"
   >
     <div
       class="px-10 py-5 border-b dark:border-b-[#353436] border-b-[#e5e5e5] flex flex-row justify-between items-center"
