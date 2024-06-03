@@ -34,12 +34,10 @@
       :to="{ path: `/p/${post.id}`, hash: '#comments' }"
       class="flex cursor-pointer flex-row gap-1 items-center text-[15px] leading-[22px] text-[#595959] dark:text-[#c9cccf] hover:text-[#0b5dd7] dark:hover:text-[#396eba]"
     >
-      <ClientOnly>
-        <Icon
-          class="w-7 h-7 p-1 rounded-full hover:bg-[#e6effd] dark:hover:bg-[#252e3d]"
-          name="material-symbols:chat-bubble-outline-rounded"
-        />
-      </ClientOnly>
+      <Icon
+        class="w-7 h-7 p-1 rounded-full hover:bg-[#e6effd] dark:hover:bg-[#252e3d]"
+        name="material-symbols:chat-bubble-outline-rounded"
+      />
       <span>{{ post?.comments?.length }}</span>
     </NuxtLink>
     <div class="flex flex-row items-center">
@@ -49,12 +47,10 @@
           @click="unSavePost(props.post.id)"
           class="flex flex-row gap-1 items-center text-[15px] leading-[22px] text-[#595959] dark:text-[#c9cccf] hover:text-[#0b5dd7] dark:hover:text-[#396eba]"
         >
-          <ClientOnly>
-            <Icon
-              class="w-7 h-7 p-1 rounded-full hover:bg-[#e6effd] text-[#0b5dd7] dark:text-[#396eba] dark:hover:bg-[#252e3d]"
-              name="material-symbols:bookmark-rounded"
-            />
-          </ClientOnly>
+          <Icon
+            class="w-7 h-7 p-1 rounded-full hover:bg-[#e6effd] text-[#0b5dd7] dark:text-[#396eba] dark:hover:bg-[#252e3d]"
+            name="material-symbols:bookmark-rounded"
+          />
         </button>
       </div>
       <div v-if="!isSaved">
@@ -63,12 +59,10 @@
           @click="savePost(props.post.id)"
           class="flex flex-row gap-1 items-center text-[15px] leading-[22px] text-[#595959] dark:text-[#c9cccf] hover:text-[#0b5dd7] dark:hover:text-[#396eba]"
         >
-          <ClientOnly>
-            <Icon
-              class="w-7 h-7 p-1 rounded-full hover:bg-[#e6effd] dark:hover:bg-[#252e3d]"
-              name="material-symbols:bookmark-outline-rounded"
-            />
-          </ClientOnly>
+          <Icon
+            class="w-7 h-7 p-1 rounded-full hover:bg-[#e6effd] dark:hover:bg-[#252e3d]"
+            name="material-symbols:bookmark-outline-rounded"
+          />
         </button>
       </div>
       <span :class="isSaved ? 'text-[#0b5dd7] dark:text-[#396eba]' : ''">{{
@@ -94,7 +88,7 @@ let isLiked = ref(false);
 let isLiking = ref(false);
 
 onMounted(() => {
-  if (props.post?.likes) {
+  if (props?.post?.likes && user.value) {
     props.post?.likes.forEach((like) => {
       if (like.userId === user.value.id) {
         isLiked.value = true;
@@ -104,7 +98,7 @@ onMounted(() => {
 });
 
 onMounted(() => {
-  if (props.post?.bookmarks) {
+  if (props?.post?.bookmarks && user.value) {
     props.post?.bookmarks.forEach((bookmark) => {
       if (bookmark.userId === user.value.id) {
         isSaved.value = true;

@@ -66,7 +66,7 @@ watch(input, () => {
 });
 
 onBeforeMount(() => {
-  if (props.post.comments) {
+  if (props?.post?.comments) {
     comments.value = props.post.comments;
   }
 });

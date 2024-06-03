@@ -128,7 +128,7 @@ watchEffect(() => {
 /* onUnmounted(() => {
   client.removeChannel(realtimeChannel);
 }); */
-definePageMeta({
-  keepalive: true,
+useHead({
+  title: "Свежее - игры, кино, сериалы, разработка, сообщество",
 });
 </script>

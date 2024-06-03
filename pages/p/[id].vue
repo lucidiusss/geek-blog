@@ -18,7 +18,6 @@ const { id } = useRoute().params;
 
 onBeforeMount(async () => {
   try {
-    await preloadComponents(["UIPost"]);
     await userStore.getSinglePost(id);
   } catch (err) {
     console.log(err);

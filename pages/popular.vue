@@ -26,4 +26,8 @@
 
 <script setup>
 const postModal = usePostModal();
+
+useHead({
+  title: "GB - игры, кино, сериалы, разработка, сообщество",
+});
 </script>

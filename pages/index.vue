@@ -12,4 +12,8 @@
 
 <script setup>
 const postModal = usePostModal();
+
+useHead({
+  title: "Главная",
+});
 </script>

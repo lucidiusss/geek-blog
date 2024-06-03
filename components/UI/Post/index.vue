@@ -88,7 +88,7 @@ const props = defineProps({
 });
 
 onMounted(() => {
-  if (props.post?.user?.followedBy) {
+  if (props.post?.user?.followedBy && user.value) {
     props.post?.user?.followedBy.forEach((user) => {
       if (user.id === user?.id) {
         isFollowed.value = true;

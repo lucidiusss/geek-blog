@@ -84,7 +84,7 @@ let isLiked = ref(false);
 let isLiking = ref(false);
 
 onMounted(() => {
-  if (props.comment?.likes) {
+  if (props.comment?.likes && user.value) {
     props.comment?.likes.forEach((like) => {
       if (like.userId === user.value.id) {
         isLiked.value = true;

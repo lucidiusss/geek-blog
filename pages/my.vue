@@ -101,4 +101,8 @@ const onTabChange = (index) => {
 watchEffect(() => {
   posts.value = userStore.posts;
 }); */
+
+useHead({
+  title: "Моя лента - игры, кино, сериалы, разработка, сообщество",
+});
 </script>
