@@ -1,7 +1,7 @@
 <template>
   <nav
     ref="targetEl"
-    class="dark:bg-[#1f1f1f] xs:w-screen xs:h-screen bg-white leading-4 shadow-xl border dark:border-[#2f2f2f] border-[#dddddd] w-[350px] rounded-xl p-2 dark:text-[#c9cccf] text-black absolute top-14 right-0"
+    class="dark:bg-[#1f1f1f] md:w-[300px] lg:w-[350px] xl:w-[400px] bg-white leading-4 shadow-xl border dark:border-[#2f2f2f] border-[#dddddd] w-[350px] rounded-xl p-2 dark:text-[#c9cccf] text-black absolute top-14 right-0"
   >
     <h1 class="text-[17px] select-none ml-3 my-2">Мой профиль</h1>
     <ul class="select-none mb-2">
