@@ -59,7 +59,7 @@
   </div>
 
   <div
-    class="fixed bottom-0 left-0 z-10 dark:bg-[#232324] bg-white md:hidden xs:block w-full"
+    class="fixed bottom-0 left-0 dark:bg-[#232324] bg-white md:hidden xs:block w-full z-20"
   >
     <UIFooter :currentUser="currentUser" />
     <UIFooterProfile

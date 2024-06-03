@@ -1,9 +1,20 @@
 <template>
   <nav
     ref="targetEl"
-    class="dark:bg-[#1f1f1f] bg-white leading-4 w-screen h-screen p-2 dark:text-[#c9cccf] text-black absolute bottom-10 right-0"
+    class="dark:bg-[#1f1f1f] bg-white leading-4 w-screen h-full p-2 dark:text-[#c9cccf] text-black fixed top-0 left-0"
   >
-    <h1 class="text-[17px] select-none ml-3 my-2">Мой профиль</h1>
+    <div class="w-full flex flex-row items-center justify-between">
+      <h1 class="text-[17px] select-none ml-3 my-2">Мой профиль</h1>
+      <button
+        @click="profileModal.isModalOpen = false"
+        class="mr-5 dark:active:bg-[#2c2c2c] active:bg-[#f0f0f0] p-1 top-5 right-5"
+      >
+        <Icon
+          name="heroicons:x-mark-20-solid"
+          class="w-6 h-6 dark:text-[#969c9d] text-[#595959]"
+        />
+      </button>
+    </div>
     <ul class="select-none mb-2">
       <NuxtLink
         @click="profileModal.isModalOpen = false"
