@@ -29,11 +29,6 @@ export const useProfileModal = defineStore("profileModal", {
   state: () => ({
     isModalOpen: false,
   }),
-  actions: {
-    toggleUserModal() {
-      this.isModalOpen = !this.isModalOpen;
-    },
-  },
 });
 
 export const useFollowersModal = defineStore("followersModal", {

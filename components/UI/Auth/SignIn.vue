@@ -2,7 +2,7 @@
   <div
     v-if="!authModal.isSigningIn"
     ref="target"
-    class="z-50 fixed top-1/2 -translate-x-1/2 left-1/2 w-1/4 -translate-y-1/2 h-[550px] rounded-xl dark:bg-[#232324] bg-white text-black dark:text-[#c9cccf]"
+    class="z-50 fixed top-1/2 -translate-x-1/2 -translate-y-1/2 left-1/2 xs:w-screen sm:w-screen md:w-3/4 lg:w-2/4 xl:w-[500px] xs:h-screen sm:h-screen md:h-3/4 lg:h-3/4 xl:h-2/4 xs:rounded-none sm:rounded-xl dark:bg-[#232324] bg-white text-black dark:text-[#c9cccf]"
   >
     <h1
       v-motion
@@ -92,7 +92,7 @@
   <div
     v-else
     ref="target"
-    class="z-50 fixed top-1/2 -translate-x-1/2 left-1/2 w-1/4 -translate-y-1/2 h-[550px] rounded-xl dark:bg-[#232324] bg-white text-black dark:text-[#c9cccf]"
+    class="z-50 fixed top-1/2 -translate-x-1/2 left-1/2 -translate-y-1/2 xs:w-screen sm:w-screen md:w-3/4 lg:w-2/4 xl:w-[500px] xs:h-screen sm:h-screen md:h-3/4 lg:h-3/4 xl:h-2/4 xs:rounded-none sm:rounded-xl dark:bg-[#232324] bg-white text-black dark:text-[#c9cccf]"
   >
     <h1
       v-motion
@@ -132,20 +132,20 @@
     >
       <input
         text-black
-        class="w-2/4 font-medium text-[17px] dark:text-[#c9cccf] dark:placeholder:text-[#595959] outline-none outline-4 outline-offset-0 dark:hover:outline-[#303031] dark:focus:outline-[#303031] border border-transparent dark:hover:border-[#324a5e] dark:focus:border-[#418af4] dark:bg-[#2c2c2d] dark:hover:bg-[#1e1d1e] dark:focus:bg-[#1e1d1e] bg-[#f5f5f5] hover:bg-white hover:border-[#b3d1ff] focus:border-[#4989e9] hover:outline-[#e6effd] focus:outline-[#e6effd] focus:bg-white text-black placeholder:text-[#646464] p-3 custom-transition rounded-xl"
+        class="xs:w-3/4 sm:w-2/4 font-medium text-[17px] dark:text-[#c9cccf] dark:placeholder:text-[#595959] outline-none outline-4 outline-offset-0 dark:hover:outline-[#303031] dark:focus:outline-[#303031] border border-transparent dark:hover:border-[#324a5e] dark:focus:border-[#418af4] dark:bg-[#2c2c2d] dark:hover:bg-[#1e1d1e] dark:focus:bg-[#1e1d1e] bg-[#f5f5f5] hover:bg-white hover:border-[#b3d1ff] focus:border-[#4989e9] hover:outline-[#e6effd] focus:outline-[#e6effd] focus:bg-white text-black placeholder:text-[#646464] p-3 custom-transition rounded-xl"
         type="email"
         v-model="userStore.email"
         placeholder="Почта"
       />
       <input
-        class="w-2/4 font-medium text-[17px] dark:text-[#c9cccf] dark:placeholder:text-[#595959] outline-none outline-4 outline-offset-0 dark:hover:outline-[#303031] dark:focus:outline-[#303031] border border-transparent dark:hover:border-[#324a5e] dark:focus:border-[#418af4] dark:bg-[#2c2c2d] dark:hover:bg-[#1e1d1e] dark:focus:bg-[#1e1d1e] bg-[#f5f5f5] hover:bg-white hover:border-[#b3d1ff] focus:border-[#4989e9] hover:outline-[#e6effd] focus:outline-[#e6effd] focus:bg-white text-black placeholder:text-[#646464] p-3 custom-transition rounded-xl"
+        class="xs:w-3/4 sm:w-2/4 font-medium text-[17px] dark:text-[#c9cccf] dark:placeholder:text-[#595959] outline-none outline-4 outline-offset-0 dark:hover:outline-[#303031] dark:focus:outline-[#303031] border border-transparent dark:hover:border-[#324a5e] dark:focus:border-[#418af4] dark:bg-[#2c2c2d] dark:hover:bg-[#1e1d1e] dark:focus:bg-[#1e1d1e] bg-[#f5f5f5] hover:bg-white hover:border-[#b3d1ff] focus:border-[#4989e9] hover:outline-[#e6effd] focus:outline-[#e6effd] focus:bg-white text-black placeholder:text-[#646464] p-3 custom-transition rounded-xl"
         type="password"
         v-model="userStore.password"
         placeholder="Пароль"
         @keyup.enter="signInWithEmail()"
       />
       <button
-        class="w-2/4 font-medium text-[17px] h-14 p-3 rounded-xl custom-transition dark:text-[#c9cccf] dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5] bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] text-white"
+        class="xs:w-3/4 sm:w-2/4 font-medium text-[17px] h-14 p-3 rounded-xl custom-transition dark:text-[#c9cccf] dark:bg-[#418af4] dark:hover:bg-[#598fde] dark:active:bg-[#3367b5] bg-[#0b5dd7] hover:bg-[#2664bf] active:bg-[#2a6dd1] text-white"
         @click="signInWithEmail()"
       >
         <ClientOnly v-if="isLoading">

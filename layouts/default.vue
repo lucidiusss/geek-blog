@@ -62,6 +62,10 @@
     class="fixed bottom-0 left-0 z-10 dark:bg-[#232324] bg-white md:hidden xs:block w-full"
   >
     <UIFooter :currentUser="currentUser" />
+    <UIFooterProfile
+      v-if="profileModal.isModalOpen && user"
+      :currentUser="currentUser"
+    />
   </div>
 </template>
 
@@ -72,6 +76,7 @@ const user = useSupabaseUser();
 const userStore = useUserStore();
 const client = useSupabaseClient();
 const currentUser = ref({});
+const profileModal = useProfileModal();
 
 let realtimeChannel = RealtimeChannel;
 
@@ -105,6 +110,7 @@ watchEffect(() => {
     realtimeChannel.subscribe();
   }
 });
+
 onUnmounted(() => {
   client.removeChannel(realtimeChannel);
 });
